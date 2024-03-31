@@ -54,6 +54,46 @@ const app = express()
         res.send('<h2>Chai aur code</h2>')
     })
 
+    //How to give json response:-
+    const github={
+        "login": "prabhat-mishra29",
+        "id": 114682869,
+        "node_id": "U_kgDOBtXr9Q",
+        "avatar_url": "https://avatars.githubusercontent.com/u/114682869?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/prabhat-mishra29",
+        "html_url": "https://github.com/prabhat-mishra29",
+        "followers_url": "https://api.github.com/users/prabhat-mishra29/followers",
+        "following_url": "https://api.github.com/users/prabhat-mishra29/following{/other_user}",
+        "gists_url": "https://api.github.com/users/prabhat-mishra29/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/prabhat-mishra29/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/prabhat-mishra29/subscriptions",
+        "organizations_url": "https://api.github.com/users/prabhat-mishra29/orgs",
+        "repos_url": "https://api.github.com/users/prabhat-mishra29/repos",
+        "events_url": "https://api.github.com/users/prabhat-mishra29/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/prabhat-mishra29/received_events",
+        "type": "User",
+        "site_admin": false,
+        "name": "Prabhat Mishra",
+        "company": null,
+        "blog": "",
+        "location": null,
+        "email": null,
+        "hireable": null,
+        "bio": "keep calm and keep coding.",
+        "twitter_username": null,
+        "public_repos": 9,
+        "public_gists": 0,
+        "followers": 3,
+        "following": 5,
+        "created_at": "2022-09-29T15:48:29Z",
+        "updated_at": "2024-03-26T16:47:07Z"
+      }
+
+      app.get('/github',(req,res)=>{
+        //res.send(github)
+        res.json(github)
+    })
 
 //Now it is time for listen:-
 /*
