@@ -6,7 +6,7 @@ require('dotenv').config()
 //import 'dotenv/config'
 
 const express = require('express')
-//Another way:- import { express } from 'express'
+//Another way:- import  express  from 'express'
 
 //Variable:-
 const app = express()

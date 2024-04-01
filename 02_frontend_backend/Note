@@ -1,0 +1,21 @@
+#Steps:-
+    1.create backend first.
+    2.create 'package.json' file using 'node.init'.
+    3.Then create index.js
+    4.Now create your own command for running files using 'package.json'
+    5.install 'express'.
+    6.Now go to 'index.js'.
+
+    7.Now we move to frontend part.
+    8.Create a vite_app.
+    9.Go to app.jsx.
+
+#Some bad practice that are followed by industry:-
+    >They push 'backend' with 'frontend' folder directly to server/digital-ocean without using 'netify' for frontend.
+    >Using 'npm run build' vite converts all data into a single folder called 'distribution' folder.
+    >for use of 'proxy' and making same origin, people deploy 'dist' to backend.
+    >Now we can use middlewires in 'index.js' from which we can serve static assets.
+    >How to use middle wire:- app.use(express.static('dist'));
+    >Now restart the backend.
+    >Problem:-If any changes occur in backend it will not affect.But If any changes occur in frontend it will not propagate in original website.
+    >Solution:-once again create 'dist' folder then push it to backend and restart the programe.[Kya baar baar create kare and restart kare]
