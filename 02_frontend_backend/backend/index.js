@@ -16,7 +16,7 @@ const port=process.env.PORT || 3000;
 /*
     //Get a list of five jokes:-
     app.get('/jokes', (req, res) => {
-        //We do not use url like '/jokes' , we follow some standard practices.
+        //We do not use url like '/jokes' , we follow some standard practices for proxy.
 
         const jokess=[
             {
@@ -51,50 +51,48 @@ const port=process.env.PORT || 3000;
     })
 */
 
-//Standardized form:-
-    //Get a list of five jokes:-
-    app.get('/api/jokes', (req, res) => {
-        //We do not use url like '/jokes' , we follow some standard practices.[go to app.jsx]
+//For proxy:-
+    //Standardized form:-
+        app.get('/api/jokes', (req, res) => {
+            //now go to app.jsx
 
-        const jokess=[
-            {
-                id:1,
-                title:'A joke',
-                content:'This is a joke'
-            },
-            {
-                id:2,
-                title:'B joke',
-                content:'This is 2nd joke'
-            },
-            {
-                id:3,
-                title:'C joke',
-                content:'This is 3rd joke'
-            },
-            {
-                id:4,
-                title:'D joke',
-                content:'This is 4th joke'
-            },
-            {
-                id:5,
-                title:'E joke',
-                content:'This is 5th joke'
-            },
-        ];
+            const jokess=[
+                {
+                    id:1,
+                    title:'A joke',
+                    content:'This is a joke'
+                },
+                {
+                    id:2,
+                    title:'B joke',
+                    content:'This is 2nd joke'
+                },
+                {
+                    id:3,
+                    title:'C joke',
+                    content:'This is 3rd joke'
+                },
+                {
+                    id:4,
+                    title:'D joke',
+                    content:'This is 4th joke'
+                },
+                {
+                    id:5,
+                    title:'E joke',
+                    content:'This is 5th joke'
+                },
+            ];
 
-        res.send(jokess)
-        // Use json-formatter for good look of json response.
-    })
+            res.send(jokess)
+        })
 
-    //'/api':'http://localhost:3000'
+        //'/api':'http://localhost:3000'
 
+        
 app.listen(port, () => {
     console.log(`Serve at http://localhost:${port}`)
 });
-
-
 
 /*
     //whitelist:-

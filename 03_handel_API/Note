@@ -1,0 +1,23 @@
+Black box API:- API which is not controlled by us.We just recieve datas from that API.
+    example:-"https://api/github/user/prabhat-mishra29".It gives data immediately.Suppose we want data after 3 sec for that case we create custom code. 
+
+#Steps:-
+    >1st create 'package.json' file using 'npm init'.
+    >Then create index.js
+    >Now create your own command for running files using 'package.json'
+    >install 'express'.
+    >Make type:module in package.json
+    >Now go to 'index.js'.
+
+    7.Now we move to frontend part.
+    8.Create a vite_app.
+    9.Remove 'CORS' error by creating 'proxy' in vite.config.js
+        server: {
+                  proxy:{
+                    '/api':'http://localhost:3000',
+                  },
+                }, 
+    10.Go to app.jsx.
+    11.Learn about react-query in app.jsx.
+
+    12.Learn about race-condition, how to cancel a fetch request and cleaning function.

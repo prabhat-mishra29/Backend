@@ -1,5 +1,5 @@
 #Steps:-
-    >1st create 'package.json' file using 'node.init'.
+    >1st create 'package.json' file using 'npm init'.
     >Then create index.js
     >Now create your own command for running files using 'package.json'
     >install 'express'.
