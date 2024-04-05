@@ -1,0 +1,29 @@
+1st question should come in our head,when we start a backend project:-
+    ->Data but what is the type of data , what is the type of datafields we are going to use,what will be the data formats of that field.
+
+    -> ["Kya store karr na hai and kesse store karna hai naa ki kahan store karna hai"]
+
+#Stps:-
+    1.1st create a structure of data model either using some tools or pen and papper.
+    2.2nd we need a helper for object modeling or to present in code form.
+
+        -> For data modeling we use a tool 'moon modeler'.["PAID"]
+            > Data modeling is the process of creating a visual representation of an information system that shows the relationships between data points and structures.
+            > Moon Modeler is a data modeling tool for MongoDB and Mongoose ODM.
+            > It belongs to the data modeling and schema design tools category and can be used to create and visualize database structures.
+
+        -> "Eraser.io" is a tool for engineering teams to create diagrams and documents.It works slightly different than 'moon modeler'.
+
+        ["Sabse pehle dhyann main rakho kii user se kya kya information leke data main store karr ne bale hoo,ussi ke basis pai sare kamm karo."]
+
+        -> you can follow your copy and pen for data structuring.
+
+        -> We use 'mongoose' here.['for helper',another example:-'prisma']
+            > Mongoose is an Object Data Modeling (ODM) library for MongoDB.
+            > Mongoose is used to interact with MongoDB by providing a schema-based solution.
+
+#For next part we use an online coding platform "stackblitz.com".
+    >Create a new project in 'stackblitz' for backend-express.
+    >install mongoose.
+    >Create a models folder where we create our different model.
+    >then go to 'stackblitz'.
