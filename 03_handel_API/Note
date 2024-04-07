@@ -2,7 +2,7 @@ Black box API:- API which is not controlled by us.We just recieve datas from tha
     example:-"https://api/github/user/prabhat-mishra29".It gives data immediately.Suppose we want data after 3 sec for that case we create custom code. 
 
 #Steps:-
-    >1st create 'package.json' file using 'npm init'.
+    >1st create 'package.json' file using 'npm init'. [npm-> node package manager]
     >Then create index.js
     >Now create your own command for running files using 'package.json'
     >install 'express'.

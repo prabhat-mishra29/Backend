@@ -1,6 +1,6 @@
 #Steps:-
     1.create backend first.
-    2.create 'package.json' file using 'npm init'.
+    2.create 'package.json' file using 'npm init'. [npm-> node package manager]
     3.Then create index.js
     4.Now create your own command for running files using 'package.json'
     5.install 'express'.
