@@ -1,0 +1,35 @@
+#Steps:-
+
+    1. Create package.json using npm init.
+
+    2.Let's discuss how we store our images?
+        > We will upload the photos to AWS, Cloudinary, and Azure. The platforms will respond to an API to be used for future cases..
+        >But sometimes user loses their connection so better way to store these photos and videos in our temporary server. After that, we use some processes to put these images into AWS, Cloudinary, and Azure.
+
+    3.Create a 'public' folder then create a 'temp' folder inside it.
+
+    4. Git tracks files, not folders. If you create a folder inside another folder and try to push it to GitHub, an empty file will be displayed. 
+        > So how will you do then ?
+        > Using '.gitkeep' , It is an empty file.
+
+    5.Create .gitignore, .env file and .env.sample .
+        > You can ignore project files for a specific project using "git ignore generators".
+
+    6.Create a 'src' folder in main/root.within that create app.jsx file , index.js file and constants.js file.
+
+    7.Go to the package.json and make 'type' as 'module'.
+        >Whenever server file reloads , we need to stop and restart the server.Do we do everytime?
+        >No, We use 'nodemon'.
+        >'nodemon' is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+        >Here we  install nodemon as a development dependency:
+            "npm install --save-dev nodemon"
+        >'Dev dependencies' are packages that are only required for local development and testing, and not for the production environment.
+        >After installing nodemon, we need to direct it so that it automatically restarts whenever we hit 'npm run dev'. [go to the package.json]
+
+    8.Go to src and create "controllers folder"[functionality] , "db folder"[database connection logic] , "middlewares folder"[It is a function that is executed between the request and response cycles of an application.{like it checks your cookies to see if you can get your information from response or not?}] , "models folder"[data modeling] , "routes folder"[routing] , "utils folder"[utility:-joo functionality baar baar repeat hoga usko ekk separate file pai rakhke,jahan v jarurat hoo use kiya jaye.]
+
+    9.what is the use of prettier?
+        > Prettier ensures consistency in your code formatting and makes the process automatic.
+        > Learn about prettier.
+        > install dev-dependency of prettier :- npm install -D prettier
+        > add some additional file:- '.prettierrc' and '.prettierignore'
