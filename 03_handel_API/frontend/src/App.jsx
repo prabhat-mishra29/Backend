@@ -162,7 +162,6 @@ function App() {
       <input type="text" placeholder='Search'
       value={search}
       onChange={(e)=>setSearch(e.target.value)}
-
       />
 
       {loading && (<h2>Loading...</h2>)}

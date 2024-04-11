@@ -1,4 +1,6 @@
-#Steps:-
+[Check out the data modeling structure of mega project in eraser.io]
+
+#Project Structure Steps:-
 
     1. Create package.json using npm init.
 
@@ -21,7 +23,7 @@
         >Whenever server file reloads , we need to stop and restart the server.Do we do everytime?
         >No, We use 'nodemon'.
         >'nodemon' is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
-        >Here we  install nodemon as a development dependency:
+        >Here we install nodemon as a development dependency:
             "npm install --save-dev nodemon"
         >'Dev dependencies' are packages that are only required for local development and testing, and not for the production environment.
         >After installing nodemon, we need to direct it so that it automatically restarts whenever we hit 'npm run dev'. [go to the package.json]
@@ -33,3 +35,6 @@
         > Learn about prettier.
         > install dev-dependency of prettier :- npm install -D prettier
         > add some additional file:- '.prettierrc' and '.prettierignore'
+
+
+# How to connect database steps:-

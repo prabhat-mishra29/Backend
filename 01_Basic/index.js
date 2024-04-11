@@ -31,7 +31,7 @@ const app = express()
     //Response kuch v ho sakta hai. string,array,object,message,cookie,html element,json etc.
 
     app.get('/', (req, res) => {
-    res.send('Hello World!')
+        res.send('Hello World!')
     })
 
     //Learn about 'req' and 'res' keywords in express doc.
