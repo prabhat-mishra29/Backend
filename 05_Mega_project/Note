@@ -76,9 +76,48 @@
 
     13.Go to the DB folder.[For 2nd approach]
 
-    14.You may encounter an error stating that the file cannot be imported. If this occurs, always check your import statement. If the extension is missing, make sure to add it. [check in inex.js]
+    14.Go to 'app.js' and create an express app then import it on index.js.
 
-    15.Agar .env pai kuch change hua toh dubara reload karo.
+    15.You may encounter an error stating that the file cannot be imported. If this occurs, always check your import statement. If the extension is missing, make sure to add it. [like db.js,constants.js etc]
 
-    16.If you get this error:-MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted.
+    16.Agar .env pai kuch change hua toh dubara reload karo.
+
+    17.If you get this error:-MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted.
         >Simply switch between wifi and mobile data to fix the issue.
+
+
+# Custom API response and error handeling:-
+    1.Generally, we lie in two states i.e. request and response of expressJS.
+
+    2.Learn everything about request and response properties in expressJS documentation.
+
+    3.In our observation, we consider only req.body,req.cookies and req.params.
+
+    4.install 'cookie-parser' middleware and 'cors'.
+        >CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
+            - "app.use()" -> it is used when we have a middleware or configuration.
+
+        >Cookie parser typically performs the following tasks: Extracts the cookie data from the HTTP request and converts it into a usable format that can be accessed by the server-side code.
+
+    5.Go to 'app.js' and check out how to use CORS , cookie-parser and set some rules.
+
+    6.Draw a diagram to understand middleware in eraser.io .
+        >Some information nedd to be updated:-
+            app.get('/instagram', (err,req,res,next) => {
+                res.send('Hello World!')
+            })
+            - 'next' serves as a flag to pass on the reference to the next middleware until it reaches the response part.
+
+    7.We always talk with database.
+        Did we need to use the database connection code again and again? :- No , To simplify this process, we create a utility file. This file can be imported whenever we need to use its functions or methods.It acts as a wrapper.
+            - We can use two different ways to do this.1st one is asyncHandler[using promises] and second one is try-catchHandler.
+
+            - Go to utility folder -> asyncHandler.
+
+    8.Now it is the time for creating a centralized format for handling errors.learn NodeJS API error. It returns a error-class.By overriding different methods we can improve error handling.
+        - Go to utility folder -> APIerror
+
+    9.For handling responses we do not use nodeJS because we have expressJS.But we can create a separate class for that and implement it for our use.
+        - Go to utility folder -> APIresponse
+    
+    10.Learn about http status code.

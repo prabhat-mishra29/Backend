@@ -14,55 +14,68 @@ dotenv.config({
 // import {DB_NAME} from "./constants.js"
 // import express from 'express'
 import connectDB from "./DB/db.js";
+import app from './app.js';
 
-// //1st approach:-
-//     /*
-//         //How to connect database:-
-//             const mongoose = require('mongoose');
-//             mongoose.connect('mongodb://127.0.0.1:27017/test');
+//How to connect database:-
+/*
+    //1st approach:-
 
-//         //But this is not the better way to do our connection.
-//     */
+        //Syntax:-
+            //     const mongoose = require('mongoose');
+            //     mongoose.connect('mongodb://127.0.0.1:27017/test');
 
-//     //Better way:-
-//         /*
-//             //1st:-
-//                 function connectDB(){
+            // //But this is not the better way to do our connection.
 
-//                 }
+        //Better way:-
+            // //1st:-
+            //     function connectDB(){
 
-//                 connectDB();
-//         */
+            //     }
 
-//         //2nd:-[using IIFE]
-//         //Databse needs async and await for response and tr-catch for connecting.
+            //     connectDB();
 
-//         //Sometimes you see that,user creates 'app' from express in index.js file and use it according to it.
-//             const app=express();
+            //2nd:-[using IIFE]
+            //Database needs async and await for response and try-catch for connecting.
 
-//             ;( async()=>{
-//                 try {
-//                     await mongoose.connect(`${process.env.MONGODB_URL}/${DB_NAME}`);
-//                     // "mongodb+srv://prabhat_mishra:Prabhat123@cluster0.j7phqdv.mongodb.net"/"videotube"
+            //Sometimes you see that,user creates 'app' from express in index.js file and use it according to it.
+                const app=express();
 
-//                     //database connect hogaya hai,kya pata hamra express ka app woh baat nahi karr para hai. 
-//                     app.on("error",()=>{
-//                         console.error("ERROR [NOT able to talk] : ",error);
-//                         throw error
-//                     })
+                ;( async()=>{
+                    try {
+                        await mongoose.connect(`${process.env.MONGODB_URL}/${DB_NAME}`);
+                        // "mongodb+srv://prabhat_mishra:Prabhat123@cluster0.j7phqdv.mongodb.net"/"videotube"
 
-//                     app.listen(process.env.PORT,()=>{
-//                         console.error(`APP is listening on port : ${process.env.PORT}.`);
-//                     })
-//                 } catch (error) {
-//                     console.error("ERROR : ",error)
-//                     throw error
-//                 }
-//             } )()
+                        //database connect hogaya hai,kya pata hamra express ka app woh baat nahi karr para hai. 
+                        app.on("error",()=>{
+                            console.error("ERROR [NOT able to talk] : ",error);
+                            throw error
+                        })
 
+                        app.listen(process.env.PORT,()=>{
+                            console.log(`APP is listening on port : ${process.env.PORT}.`);
+                        })
+                    } catch (error) {
+                        console.error("ERROR : ",error)
+                        throw error
+                    }
+                } )()
+*/
 
-//2nd approach:-
-    //Go to db.js ,create connection code there and then import in here(index.js).
-    connectDB();
+    //2nd approach:-
+        //Go to db.js ,create connection code there and then import in here(index.js).
+        connectDB() //Returns a promise
+        .then(()=>{
+            //Server loads:-
+            
+            app.on("error",()=>{
+                console.error("ERROR [NOT able to talk] : ",error);
+            })
 
-    //You may encounter an error stating that the file cannot be imported. If this occurs, always check your import statement. If the extension is missing, make sure to add it.
+            app.listen(process.env.PORT||8000,()=>{
+                console.log(`APP is listening on port : ${process.env.PORT||8000}.`);
+            })
+            
+        })
+        .catch((err)=>{
+            console.log("Mongo db connection failed !!!",err)
+        })
