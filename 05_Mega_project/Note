@@ -109,7 +109,7 @@
             - 'next' serves as a flag to pass on the reference to the next middleware until it reaches the response part.
 
     7.We always talk with database.
-        Did we need to use the database connection code again and again? :- No , To simplify this process, we create a utility file. This file can be imported whenever we need to use its functions or methods.It acts as a wrapper.
+        > Did we need to use the database connection code again and again? :- No , To simplify this process, we create a utility file. This file can be imported whenever we need to use its functions or methods.It acts as a wrapper.
             - We can use two different ways to do this.1st one is asyncHandler[using promises] and second one is try-catchHandler.
 
             - Go to utility folder -> asyncHandler.

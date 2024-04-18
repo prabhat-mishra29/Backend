@@ -22,12 +22,21 @@
             }
         }
 
-        //How to add async:-
-        const asyncHandler = (func) => {
-            async()=>{
+        OR
 
+        const asyncHandler = (func) => () =>{ }
+        
+
+        //How to add async:-
+            const asyncHandler = (func) => {
+                async()=>{
+
+                }
             }
-        }
+
+            OR 
+            
+            const asyncHandler = (func) => async() =>{ }
     */
 
     const asyncHandler = (func) => async(req,res,next) => {
