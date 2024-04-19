@@ -121,3 +121,39 @@
         - Go to utility folder -> APIresponse
     
     10.Learn about http status code.
+
+
+# User and video model with hooks and JWT:-
+    1.Go to eraser.io and watch user and video model.
+
+    2.Create user model and video model in 'models' folder.
+
+    3.Here we use a special type of package called "mongoose-aggregate-paginate-v2".
+        > It is a pagination library designed specifically for handling paginated results from MongoDB aggregation queries in a Node.js application using Mongoose.
+
+        > Pagination in MongoDB is a way to divide a large dataset into smaller, more manageable pieces.
+        
+        > In the context of databases, aggregation refers to the process of transforming and combining data from multiple documents or rows into a single result set based on specified criteria.  
+        
+        > MongoDB's aggregation framework operates using a pipeline model, where data flows through multiple stages of transformation. Each stage in the pipeline performs a specific operation on the data, such as filtering, grouping, or projecting, and passes the results to the next stage.
+
+        >Use:-Go to video.model.
+
+    4.For password encrypted-decrypted problem:- We use bcrypt/bcrypt.js.
+        > A library to help you hash passwords.
+            > bcrypt:-A bcrypt library for NodeJS.
+            > bcrypt.js:-Optimized bcrypt in plain JavaScript with zero dependencies. Compatible to 'bcrypt'.
+                - Both have same functionality.Which one would you prefer,it depends on you.
+                - Here we use core 'bcrypt'.Install 'bcrypt'.
+
+        
+    5.For tokens we use JWT:-
+        > JSON Web Tokens (JWTs) are a standardized way to securely send data between two parties. They contain information (claims) encoded in the JSON format. These claims help share specific details between the parties involved.
+        > Learn about it on JWT.io .
+        > Install jasonwebtokens .
+
+    6.Both bcrypt and jasonwebtokens use cryptography.
+
+    7.Go to user.model and see how to use bcrypt,jasonwebtokens.
+
+    8.Learn middleware hooks and methods from mongoose documentation.

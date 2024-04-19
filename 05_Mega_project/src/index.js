@@ -64,18 +64,18 @@ import app from './app.js';
     //2nd approach:-
         //Go to db.js ,create connection code there and then import in here(index.js).
         connectDB() //Returns a promise
-        .then(()=>{
-            //Server loads:-
-            
-            app.on("error",()=>{
-                console.error("ERROR [NOT able to talk] : ",error);
-            })
+            .then(()=>{
+                //when server loads:-
+                
+                app.on("error",()=>{
+                    console.error("ERROR [NOT able to talk] : ",error);
+                })
 
-            app.listen(process.env.PORT||8000,()=>{
-                console.log(`APP is listening on port : ${process.env.PORT||8000}.`);
+                app.listen(process.env.PORT||8000,()=>{
+                    console.log(`APP is listening on port : ${process.env.PORT||8000}.`);
+                })
+                
             })
-            
-        })
-        .catch((err)=>{
-            console.log("Mongo db connection failed !!!",err)
-        })
+            .catch((err)=>{
+                console.log("Mongo db connection failed !!!",err)
+            })
