@@ -152,7 +152,7 @@
         > Learn about it on JWT.io .
         > Install jasonwebtokens .
 
-    6.Both bcrypt and jasonwebtokens use cryptography.
+    6.Both bcrypt and jasonwebtokens uses cryptography.
 
     7.Go to user.model and see how to use bcrypt,jasonwebtokens.
 
