@@ -157,3 +157,38 @@
     7.Go to user.model and see how to use bcrypt,jasonwebtokens.
 
     8.Learn middleware hooks and methods from mongoose documentation.
+
+    9.Learn difference bwtween access token vs referesh token.
+
+
+# How to upload file in backend | Multer :-
+    1.File handling doest not do in your own server , it uses either third party resources or AWS.Depend upon file size,calculation rate we choose resources.
+
+    2.We make a separate utility/middleare for file uploader.We can use same code for image upload,pdf upload,video upload.
+        > Depending on the type of end-points, we utilize middleware to interact with these end-points.
+
+    3.We use 'cloudinary'.Create your own account and install it on VS-code.
+    
+    4.Strtegy to upload file:-
+        > We will store these photos and videos in our temporary server.
+        > After that, we use some processes to put these images into AWS, Cloudinary, and Azure.
+
+        steps:-
+            > Initially, we assumed that the file had already been uploaded to the local server, which gave us a local path.
+            > using this local path we upload the file in 'cloudinary'.
+            >After successfuly upload , we unlink/remove the file from local server.
+            >Go to cloudinary.js .
+
+    5.When you upload file,you got two packages.We use one of them.
+        > 'express-fileupload' or 'multer'.We use 'multer'.
+        > Install multer.
+
+        > Multer is a node. js middleware for handling multipart/form-data , which is primarily used for uploading files from clients to the server in Node.js applications, typically in combination with frameworks like Express.js. 
+
+        > We will create a middleware using multer.We directly configure multer but via middleware we can utilize it more effectively.
+
+        > When we need this middleware we can import it. like in registration form.
+
+        > Go to middleware and create 'multer' middleware for storing in disk storage.
+        > Here we learn how to save 'file' in diskStorage.
+        > learn about multer and how to use, how to upload  in their github documentation.

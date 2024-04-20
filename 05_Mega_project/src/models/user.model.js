@@ -97,7 +97,7 @@ import mongoose from 'mongoose'
             //Pre middleware functions are executed one after another, when each middleware calls next.
               //Jabb password field save ho raha ho usko leke encrypt kardo.
                 userSchema.pre("save",async function(next){
-                    //Agar password field pai modification hoo tabhi jake iss code ko execute karo,nahi toh kuch v small changes hone pai baar baar encrypt karega.
+                    //Agar password field pai modification hoo tabhi jake iss code ko execute karo.Nahi toh kuch v small changes hone pai baar baar encrypt karega.
                     if(this.isModified("password")){
                       this.password = await bcrypt.hash(this.password , 10);
                       /*
@@ -120,6 +120,8 @@ import mongoose from 'mongoose'
 
     //You can import methods like updateOne,deleteOne etc from mongoose or can create custom methods.
       //Custom methods:-
+        //Database main password encrypted form main save hoga and user joo password dega login ke time woh clip-text or String main hoga.
+        //For checking password we create this.
         userSchema.methods.isPasswordCorrect= async function(password){
             //bcrypt can check your password also.
             return await bcrypt.compare(password,this.password)
@@ -132,56 +134,61 @@ import mongoose from 'mongoose'
             */
         }
 
-
+/*
   //For tokens:-
-    //JWT is bearer token.It acts like a key.
-    //jske pass token hai usko data send hoga.
-    //JWT takes some inforamtion and gives tokens.
-    //You can get information about how to use in thier github.
-    //Go to .env file and create ACCESS_TOKEN_SECRET,ACCESS_TOKEN_EXPIRY,REFRESH_TOKEN_SECRET,REFRESH_TOKEN_EXPIRY .
-    //Here We use both sessions and cookies.
-    //Acess token will not save in databse but Refresh token will save.
+    > Tokens are used for token-based authentication, which is a process that verifies a user's identity by checking a token. 
+    > Tokens are symbolic items that are issued by a trusted source. 
+    > They can be physical, like a USB hard key, or digital, like a computer-generated message or digital signature.
+    > JWT is bearer token.It acts like a key.
+    > jske pass token hai usko data send hoga.
+    > JWT takes some inforamtion and gives tokens.
+    > You can get information about how to use in thier github.
+    > Go to .env file and create ACCESS_TOKEN_SECRET,ACCESS_TOKEN_EXPIRY,REFRESH_TOKEN_SECRET,REFRESH_TOKEN_EXPIRY .
+    > Here We use both sessions and cookies.
+    > Acess token will not save in databse but Refresh token will save.
+    > Both do same work but refresh takes less inforamtion compare to access.
+    > Learn difference bwtween access token vs referesh token.
+*/
         //Custom method for generate access token:-
-        userSchema.methods.generateAccessToken = function(){
+          userSchema.methods.generateAccessToken = function(){
+              return jwt.sign(
+                //Payload:-
+                {
+                  //key : from database
+                  _id:this._id,
+                  email:this.email,
+                  username:this.username,
+                  fullName:this.fullName
+                },
+
+                //access token secret:-
+                process.env.ACCESS_TOKEN_SECRET,
+
+                //acess token expiry:-
+                {
+                  expiresIn:process.env.ACCESS_TOKEN_EXPIRY,
+                }
+              ) 
+          }
+
+        //Custom method for generate refresh token:-
+          userSchema.methods.generateRefreshToken = function(){
             return jwt.sign(
               //Payload:-
               {
                 //key : from database
                 _id:this._id,
-                email:this.email,
-                username:this.username,
-                fullName:this.fullName
               },
 
               //access token secret:-
-              process.env.ACCESS_TOKEN_SECRET,
+              process.env.REFRESH_TOKEN_SECRET,
 
               //acess token expiry:-
               {
-                expiresIn:process.env.ACCESS_TOKEN_EXPIRY,
+                expiresIn:process.env.REFRESH_TOKEN_EXPIRY,
               }
             ) 
-        }
-
-        //Custom method for generate refresh token:-
-          //Both do same work but refresh takes less inforamtion compare to access.
-        userSchema.methods.generateRefreshToken = function(){
-          return jwt.sign(
-            //Payload:-
-            {
-              //key : from database
-              _id:this._id,
-            },
-
-            //access token secret:-
-            process.env.REFRESH_TOKEN_SECRET,
-
-            //acess token expiry:-
-            {
-              expiresIn:process.env.REFRESH_TOKEN_EXPIRY,
-            }
-          ) 
-        }
+          }
 
 
 //3rd
