@@ -1,5 +1,7 @@
 class APIerror extends Error{
-    constructor(statusCode,message="Something went wrong",errors=[],stack=""){ //Stack :- Error stack
+    constructor(statusCode,message="Something went wrong",errors=[],stack=""){
+        //Stack :- Error stack 
+        //  >An error stack is a collection of error handling methods that record the type of error, when it occurs, and the reasons for it.
         
         //Override:-
             super(message)
