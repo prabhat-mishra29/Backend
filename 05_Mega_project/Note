@@ -192,3 +192,92 @@
         > Go to middleware and create 'multer' middleware for storing in disk storage.
         > Here we learn how to save 'file' in diskStorage.
         > learn about multer and how to use, how to upload  in their github documentation.
+
+
+# HTTP crash course :-
+    1.Hypertext Transfer Protocol.
+
+    2.In 'HTTP' data goes in clear form.
+
+    3.HTTPS is HTTP with encryption and verification.
+    
+    4.The only difference between the two protocols is that HTTPS uses TLS (SSL) to encrypt normal HTTP requests and responses, and to digitally sign those requests and responses.
+
+    5.URI, URL, and URN are all types of strings that identify resources on the internet. 
+    
+    6.URI stands for Uniform Resource Identifier, URL stands for Uniform Resource Locator, and URN stands for Uniform Resource Name.
+
+    7.HTTP headers:-
+        >meta data.
+        >HTTP headers let the client and the server pass additional information with an HTTP request or response.
+        >Working:- Caching, authentication[bear token,refresh token,refresh key,refresh secret], manage state[user's state:-guest user,login user].
+        >Types:-
+            -Request headers:-
+                Contain more information about the client requesting the resource.
+
+            -Response headers:-
+                Hold additional information about the response, like its location or about the server providing it.
+
+            -Representation headers:-
+                Contain information about the body of the resource, like its MIME type, or encoding/compression applied.
+            
+            -Payload headers:-
+                Contain information about payload data, including content length and the encoding used for transport.
+
+    8.Most common headers:-
+        >Accept :- konsa format accept hoga.[ application/json or text/html ]
+        >User-Agent :- konsi application se request ayaa hai.[ postman or browser{which type browser?} ]
+        >Authentication :- [Bear_token]
+        >Content-type :- which type content. [Images or videos]
+        >Cookie :- [key value pair]
+        >Cache-Control
+
+    9.CORS headers:-
+        >Access-Control-Allow-Origin
+        >Access-Control-Allow-Credentials
+        >Access-Control-Allow-Method
+
+    10.Security policies headers:-
+        >Cross-Origin-Embedder-Policy
+        >Cross-Origin-Openers-Policy
+        >Content-Security-Policy
+        >X-XSS-Protection
+
+    11.HTTP methods:-
+        >Basic set of operations that can be used to interact with server.
+
+            [ Most common :- GET , POST , PUT , DELETE , PATCH ]
+            -GET :- retrieve a resource.
+            -HEAD :- No body message,response headers only.
+            -OPTIONS :- what operations are available.
+            -TRACE :- loopback test (get some data)
+            -DELETE :- remove a resource.
+            -PUT :- replace a resource.
+            -POST :- interact with resource (mostly add)
+            -PATCH :- change part of a resource.
+
+    12.HTTP response status codes:-
+        >It indicate whether a specific HTTP request has been successfully completed. 
+        >Responses are grouped in five classes:-
+            -Informational responses (100 – 199)
+            -Successful responses (200 – 299)
+            -Redirection messages (300 – 399)
+            -Client error responses (400 – 499)
+            -Server error responses (500 – 599)
+
+            100 - continue
+            102 - processing
+            200 - ok
+            201 - created
+            202 - accepted
+            307 - temperary redirect
+            308 - permanent redirect
+            400 - bad request
+            401 - unauthorized
+            402 - payment required
+            404 - not found
+            500 - internal server error
+            504 - gateway time out
+
+
+#
