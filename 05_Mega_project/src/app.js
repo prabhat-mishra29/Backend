@@ -41,4 +41,21 @@ app.use(cors(
     //For configuration:-
         app.use(cookieParser())
 
+
+//router import:-
+    import {router as userRouter} from './routes/user.routes.js';
+    
+    //Routes declaration:-
+    /*
+        > We can not use directly 'routers' by the help of app.get() in different file. Why?
+        > because it is only valid where the app file is define.
+        > To use in a separate file, we utilize middlewares.
+        > for that we use app.use().
+    */
+
+    //good practice:-use of api and it's version.
+    app.use("/api/v1/users",userRouter);
+    //When you navigate to the '/users' route, the control is transferred from the main 'app.js' file to the 'userRouter' module.
+    // http://localhost:8000/api/v1/users/register
+
 export default app;

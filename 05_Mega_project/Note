@@ -109,7 +109,8 @@
             - 'next' serves as a flag to pass on the reference to the next middleware until it reaches the response part.
 
     7.We always talk with database.
-        > Did we need to use the database connection code again and again? :- No , To simplify this process, we create a utility file. This file can be imported whenever we need to use its functions or methods.It acts as a wrapper.
+        > Did we need to use the database connection code again and again? :- No , To simplify this process, we create a utility file. This file can be imported whenever we need to use its functions or methods.
+        > It acts as a wrapper.
             - We can use two different ways to do this.1st one is asyncHandler[using promises] and second one is try-catchHandler.
 
             - Go to utility folder -> asyncHandler.
@@ -253,7 +254,7 @@
             -TRACE :- loopback test (get some data)
             -DELETE :- remove a resource.
             -PUT :- replace a resource.
-            -POST :- interact with resource (mostly add)
+            -POST :- interact with resource (mostly add to server)
             -PATCH :- change part of a resource.
 
     12.HTTP response status codes:-
@@ -280,4 +281,22 @@
             504 - gateway time out
 
 
-#
+# Complete guide for router and controller with debugging :-
+    1. Controller:-is a part of the software that handles user inputs and makes decisions about what data should be presented to the user and how it should be presented.
+
+    2. Router:-A router is a networking device that forwards data packets between computer networks. 
+
+    3. Create a 'register' method. Go to user.controller.
+
+    4. Now it is time for 'routers'.Go to routes and create user-routes.We perform all user related routes here.
+
+    5. Import all routers in 'app.js'.
+
+    6.We have many options for 'api-testing'.
+        >We can use 'thunder-client' vs-code plugin.
+        >We can use 'Post-man'.(we use this)
+            - create your account in postman and test "http://localhost:8000/api/v1/users/register" in it's collection.
+
+    7.In this module we just get basic guide for router and controller.In the next module, we will briefly discuss about it's use.
+
+# 

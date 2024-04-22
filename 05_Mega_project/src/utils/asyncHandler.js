@@ -38,7 +38,7 @@
             
             const asyncHandler = (func) => async() =>{ }
     */
-
+    /*
     const asyncHandler = (func) => async(req,res,next) => {
             //Extract req, res, and next from a function that is passed as a parameter.
             try {
@@ -54,20 +54,20 @@
             }
         }
 
-    export default asyncHandler;
+    */
 
-/*
-    //using promises:-
-        const asyncHandler = (func)=>{
-            //Here we will return this in the form of promises.
-            (req,res,next)=>{
-                Promise.resolve( 
-                    //Pass function:-
-                    func(req,res,next) 
-                ).reject(
-                    (err)=>next(err) 
-                //jisko v agge kamm karna hai toh woh karr paye.
-                )
-            }
+//using promises:-
+    const asyncHandler = (func)=>{
+        //Here we will return this in the form of promises.
+        return (req,res,next)=>{
+            Promise.resolve( 
+                //Pass function:-
+                func(req,res,next) 
+            ).reject(
+                (err)=>next(err) 
+            //jisko v agge kamm karna hai toh woh karr paye.
+            )
         }
-*/
+    }
+
+    export default asyncHandler;
