@@ -147,7 +147,10 @@ import mongoose from 'mongoose'
     > Here We use both sessions and cookies.
     > Acess token will not save in databse but Refresh token will save.
     > Both do same work but refresh takes less inforamtion compare to access.
-    > Learn difference bwtween access token vs referesh token.
+    > Learn difference between access token vs referesh token.
+    > Refresh tokens are used to obtain new access tokens for applications that need access to Google APIs beyond the lifetime of a single access token.
+    > Continuous access: Users can access applications without needing to re-login frequently.
+
 */
         //Custom method for generate access token:-
           userSchema.methods.generateAccessToken = function(){

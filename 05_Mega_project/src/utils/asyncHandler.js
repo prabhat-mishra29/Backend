@@ -63,7 +63,7 @@
             Promise.resolve( 
                 //Pass function:-
                 func(req,res,next) 
-            ).reject(
+            ).catch(
                 (err)=>next(err) 
             //jisko v agge kamm karna hai toh woh karr paye.
             )

@@ -7,17 +7,23 @@ class APIerror extends Error{
             super(message)
             this.statusCode=statusCode
             this.message=message
+            this.errors=errors;
 
         //Add extra filed in constructor:-
             this.data=null; //Assignment :- learn what are the things available in the 'this.data' field?
             this.success=false; //Here we handle API errors not response,so by-default we use success as fault.
-            this.errors=errors;
 
         if(stack){
             this.stack=stack;
         }
         else{
             Error.captureStackTrace(this,this.constructor)
+            /*
+                > When an error occurs in JavaScript, the runtime generates a stack trace, which is a list of function calls leading up to the point where the error occurred.
+                > This stack trace is helpful for debugging as it shows the sequence of function calls that led to the error.
+                > 'this' :- refers to the object that will have its stack trace captured.
+                > 'this.constructor' :- refers to the constructor function of the object, which is usually the function that created the object.
+            */
         }
     }
 }

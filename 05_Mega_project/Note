@@ -99,7 +99,7 @@
 
         >Cookie parser typically performs the following tasks: Extracts the cookie data from the HTTP request and converts it into a usable format that can be accessed by the server-side code.
 
-    5.Go to 'app.js' and check out how to use CORS , cookie-parser and set some rules.
+    5.Go to 'app.js' and check out how to use CORS , cookie-parser and set some rules for data which comes from different resources.
 
     6.Draw a diagram to understand middleware in eraser.io .
         >Some information nedd to be updated:-
@@ -192,7 +192,7 @@
 
         > Go to middleware and create 'multer' middleware for storing in disk storage.
         > Here we learn how to save 'file' in diskStorage.
-        > learn about multer and how to use, how to upload  in their github documentation.
+        > learn about multer and how to use, how to upload in their github documentation.
 
 
 # HTTP crash course :-
@@ -292,11 +292,22 @@
 
     5. Import all routers in 'app.js'.
 
-    6.We have many options for 'api-testing'.
+    6. We have many options for 'api-testing'.
         >We can use 'thunder-client' vs-code plugin.
         >We can use 'Post-man'.(we use this)
             - create your account in postman and test "http://localhost:8000/api/v1/users/register" in it's collection.
 
-    7.In this module we just get basic guide for router and controller.In the next module, we will briefly discuss about it's use.
+    7. In this module we just get basic guide for router and controller.In the next module, we will briefly discuss about it's use.
 
-# 
+# Logic building | Register controller:-
+    1. Now it is the time for building your logic.How to approach a problem.
+
+    2. We just simply breakdown big problem to small problem. 
+
+    3. Here problem is that we have to create a register method for user.[for backend purpose]
+
+    4. Go to user.controller and see the work flow.
+
+    5. Important:-
+        > const{fullName , email , userName , password}=req.body();
+            - {fullName, email, userName, password}: This is object destructuring syntax. It's a way to extract specific properties from an object and assign them to variables with corresponding names. In this case, it's extracting the fullName, email, userName, and password properties from the req.body object.
