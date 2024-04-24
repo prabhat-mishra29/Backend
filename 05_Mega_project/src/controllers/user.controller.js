@@ -179,7 +179,7 @@ const registerUser = asyncHandler( async(req,res)=>{
 
            
         //6.
-            //User creat hua hai yaa nahi.
+            //User create hua hai yaa nahi.
             //mongoDB creates a '_id' for every entry.
             //remove password and refresh token field.
             const createdUser=await User.findById(user._id).select(

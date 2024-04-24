@@ -311,3 +311,18 @@
     5. Important:-
         > const{fullName , email , userName , password}=req.body();
             - {fullName, email, userName, password}: This is object destructuring syntax. It's a way to extract specific properties from an object and assign them to variables with corresponding names. In this case, it's extracting the fullName, email, userName, and password properties from the req.body object.
+
+
+# How to use postman for backend :-
+    1. In this module we first debug our code and check that our code is running properly or not.
+
+    2. "http://localhost:8000/api/v1/users/register".
+
+    3. Why can not we use 'raw' -> 'josn' here just like we did in previous module (in user.controller file) ?
+        > Because In this format we can only use data not files.
+        > For that we use 'form-data'.
+
+    4. Go to "postman" then choose body , then form data.
+        > you can enabel "content-type" as your wish.
+        > Set "keys" as 
+        > Make sure you add '✅' mark.
