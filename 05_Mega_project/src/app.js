@@ -48,9 +48,10 @@ app.use(cors(
     //Routes declaration:-
     /*
         > We can not use directly 'routers' by the help of app.get() in different file. Why?
-        > because it is only valid where the app file is define.
+        > because it is only valid where the express 'app' file is define.
         > To use in a separate file, we utilize middlewares.
-        > for that we use app.use().
+        > For transerfering control from one place to other place. 
+        > for that we use "app.use()".
     */
 
     //good practice:-use of api and it's version.

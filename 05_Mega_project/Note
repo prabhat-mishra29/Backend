@@ -306,7 +306,7 @@
 
     3. Here problem is that we have to create a register method for user.[for backend purpose]
 
-    4. Go to user.controller and see the work flow.
+    4. Go to "user.controller" and see the work flow.
 
     5. Important:-
         > const{fullName , email , userName , password}=req.body();

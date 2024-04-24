@@ -4,6 +4,9 @@ import { APIresponse } from "../utils/APIresponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
+// Controller:-is a part of the software that handles user inputs and makes decisions about what data should be presented to the user and how it should be presented.
+// So we create a register method which gets data from user and sends required data to user.
+
 /*
     //Basic guide for creating a register method :-
     const registerUser = asyncHandler( async(req,res)=>{
@@ -19,7 +22,8 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 */
 
 const registerUser = asyncHandler( async(req,res)=>{
-        //1. Get user details from frontend:- Here frontend means we get data from postman.
+        //1. Get user details from frontend:-
+            //Here we frontend means we get data from postman.
             //user ka details kya lena yee depend karega ki user model kaisa bana hai.
             //username,email,fullname,avatar,coverImage,password.
             //watchHistory and refreshtoken will add programaticaly we donot need from 'postman'.
@@ -32,8 +36,8 @@ const registerUser = asyncHandler( async(req,res)=>{
 
         //4. Check for images and check for avatar.
             //if present upload them to cloudinary.
+            //check multer ne save kiya ki nahi uske badd check cloudinary pai upload hua ki nahi.
             //check for avatar specifically.
-                //check multer ne save kiya ki nahi uske badd check cloudinary pai upload hua ki nahi.
 
         //5. Create user-object.
             // beacuse in mongoDB(no sql) we preffer objects.
@@ -41,7 +45,7 @@ const registerUser = asyncHandler( async(req,res)=>{
 
         //6. check response is present or not.
             //If present:-
-                //In monogDB,response joo milega jitna v create hua hai woh as it mill jayega , so we remove password and refresh token from response.Taki user ko return mai passwor and refreshToken na jaye.
+                //In monogDB,response joo milega jitna v create hua hai woh as it mill jayega , so we remove password and refresh token from response.Taki user ko return mai password and refreshToken na jaye.
             //If response comes that means successfully we craete a user and return it.
             //If not present return null.
 
@@ -55,47 +59,50 @@ const registerUser = asyncHandler( async(req,res)=>{
                 /*
                     //How to post data in body in 'postman'?
                     >Go to postman, then go to body.
-                        -you have multiple option to post data these options.
+                        -you have multiple options to post data.
                         -we choose here raw with json.
                         - and give data {
                             "email" : "hello@gmail.com",
                             "password" : "123"
                         }
 
-                    //After posting data in body,we will get our email and password in console. :-> hello@gmail.com nad 123 .
+                    //After posting data in body,we will get our email and password in console. :-> hello@gmail.com and 123 .
                 */
                 
                 console.log("email : ",email);
                 console.log("password : ",password);
 
-            if(fullName === ""){
-                //class for "Error handling".
-                throw new APIerror(400,"full name is required");
-            }
-            if(email === ""){
-                //class for "Error handling".
-                throw new APIerror(400,"eamil is required");
-            }
-            if(userName === ""){
-                //class for "Error handling".
-                throw new APIerror(400,"user name is required");
-            }
-            if(password=== ""){
-                //class for "Error handling".
-                throw new APIerror(400,"password is required");
-            }
 
+        //2.Validation:-
             /*
+                if(fullName === ""){
+                    //class for "Error handling".
+                    throw new APIerror(400,"full name is required");
+                }
+                if(email === ""){
+                    //class for "Error handling".
+                    throw new APIerror(400,"eamil is required");
+                }
+                if(userName === ""){
+                    //class for "Error handling".
+                    throw new APIerror(400,"user name is required");
+                }
+                if(password=== ""){
+                    //class for "Error handling".
+                    throw new APIerror(400,"password is required");
+                }
+            */
+            
                 //Advance syntax:-
                     if (
-                        [fullName, email, username, password].some((field) => field?.trim() === "")
+                        [fullName, email, userName, password].some((field) => field?.trim() === "")
                     ) {
                         throw new ApiError(400, "All fields are required")
                     }
-            */
+            
 
         
-        //2.
+        //3.
             //How to know user is already exists or not?
             //By the help of 'user.model'.Using mongoose "User" can talk with mongoDB whenever he/she wants.
             /*
@@ -114,7 +121,7 @@ const registerUser = asyncHandler( async(req,res)=>{
                 }
 
 
-        //3.
+        //4.
             //We do not perform any action for file handeling right now.
             //If we use 'req.files' then it will not give anything to us.
             //Now it is time for file hanling.We use multer middleware.
@@ -136,16 +143,15 @@ const registerUser = asyncHandler( async(req,res)=>{
                 }
 
 
-        //4.
-            //upload on cloudinary.It need a localPath of image.
-            //It takes time to upload.
-            const avatar_cloudinary=await uploadOnCloudinary(avatarLocalPath);
-            const coverImage_cloudinary=await uploadOnCloudinary(coverImageLocalPath);
+                //upload on cloudinary.It need a localPath of image.
+                //It takes time to upload.
+                const avatar_cloudinary=await uploadOnCloudinary(avatarLocalPath);
+                const coverImage_cloudinary=await uploadOnCloudinary(coverImageLocalPath);
 
-            //agar upload nahi hua hai toh error show karo.
-            if(!avatar_cloudinary){
-                throw new APIerror(400, "Avatar file id required!")
-            }
+                //agar upload nahi hua hai toh error show karo.
+                if(!avatar_cloudinary){
+                    throw new APIerror(400, "Avatar file id required!")
+                }
 
 
         //5.

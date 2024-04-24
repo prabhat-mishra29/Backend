@@ -7,6 +7,7 @@ const router=Router();
 /*
     router.route("/register").post(registerUser);
     //Here we use HTTP 'post' method.
+    //'post' means add value.
     //Route.post() requires a callback function.
     //Agar user '/register' pai ayaa hai tohs usse registerUser pai lee jao.
 */
@@ -27,14 +28,15 @@ const router=Router();
     import { upload } from "../middlewares/multer.middleware.js";
     router.route("/register").post(
         upload.fields(
+            //It takes an array of objects.
             [
                 {
                     name:"avatar",
-                    maxCount:1
+                    maxCount:1 //how many numbers of image you want? 
                 },
                 {
                     name:"coverImage",
-                    maxCount:1
+                    maxCount:1 //how many numbers of image you want? 
                 }
             ]
         ),
