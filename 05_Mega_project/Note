@@ -192,7 +192,7 @@
 
         > Go to middleware and create 'multer' middleware for storing in disk storage.
         > Here we learn how to save 'file' in diskStorage.
-        > learn about multer and how to use, how to upload in their github documentation.
+        > learn about multer and how to use, how to upload in freecodecamp.
 
 
 # HTTP crash course :-
@@ -299,6 +299,7 @@
 
     7. In this module we just get basic guide for router and controller.In the next module, we will briefly discuss about it's use.
 
+
 # Logic building | Register controller:-
     1. Now it is the time for building your logic.How to approach a problem.
 
@@ -324,5 +325,55 @@
 
     4. Go to "postman" then choose body , then form data.
         > you can enabel "content-type" as your wish.
-        > Set "keys" as 
+        > Set "keys" as 'userName','fullName','email','password','avatar','coverImage' .
         > Make sure you add '✅' mark.
+        > Post the data and see the result in postman and mongoDB atlas.We will see that password and refreshToken are not present in "Postman" .
+        
+    5. After successfuly upload in cloudinary now it is the time to unlink/remove file from server. [in cloudinary.js]
+
+    6.How to configure the postman.
+        > watch video number 15.
+
+
+# Work flow of registerUser:-
+    1. At 1st we have a form in home page.
+
+    2. To create the HTML form, you will use the < form > element with the following attributes:
+        > action: This attribute specifies the URL or route where the form data will be sent when the form is submitted. In this case, you will set the action attribute to '/register'.
+
+        > method: This attribute specifies the HTTP method to be used when submitting the form. For file uploads, you should use the POST method, as it allows larger amounts of data to be sent. So, set the method attribute to "POST".
+
+        > enctype: This attribute specifies the content type used to submit the form data. For file uploads, you need to set the enctype attribute to "multipart/form-data". This encoding type is necessary for browsers to properly handle file uploads.
+
+    3. After submitting form user is directed to '/register' route. 
+
+    4. Before giving some inforamtion by server , middleware checks .
+
+    5. In our case middleware is "multer" which upload your file in your server. It is stored in "./public/temp".
+
+    6. We use the "POST" method for adding the data to the HTTP routes.
+
+    7. Server access all datas and file by use of express 'req' and give appropriate response by use of 'res'. 
+
+        > app.use("/api/v1/users",userRouter);
+
+        > router.route("/register").post(
+        upload.fields(
+            //It takes an array of objects.
+            [
+                {
+                    name:"avatar",
+                    maxCount:1 //how many numbers of image you want? 
+                },
+                {
+                    name:"coverImage",
+                    maxCount:1 //how many numbers of image you want? 
+                }
+            ]
+        ),
+        registerUser);
+
+        > registerUser method takes 'req' and give some 'res' to the user.
+
+
+# Access Refresh Token, Middleware and cookies in Backend :-

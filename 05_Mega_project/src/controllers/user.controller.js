@@ -97,11 +97,10 @@ const registerUser = asyncHandler( async(req,res)=>{
                     if (
                         [fullName, email, userName, password].some((field) => field?.trim() === "")
                     ) {
-                        throw new ApiError(400, "All fields are required")
+                        throw new APIerror(400, "All fields are required")
                     }
             
 
-        
         //3.
             //How to know user is already exists or not?
             //By the help of 'user.model'.Using mongoose "User" can talk with mongoDB whenever he/she wants.
@@ -127,15 +126,26 @@ const registerUser = asyncHandler( async(req,res)=>{
             //Now it is time for file hanling.We use multer middleware.
             //multer will give access some extra methods like req.files().
             //go to 'user.router' for file handling and how to use middlewares.
-                const avatarLocalPath=req.files?.avatar[0]?.path ;
-                //req.files? :- If req.files exist karata hai
-                //avatar[0]? :- avatar is a image and it has many properties like png,jpeg.But we need 1st object.From 1st object we can get path.
-                //path :-multer ne joo file upload kiya hai uska path.
+                //nested check:-
+                    const avatarLocalPath=req.files?.avatar[0]?.path ;
+                    //req.files? :- If req.files exist karata hai
+                    //avatar[0]? :- avatar is a image and it has many properties like png,jpeg.But we need 1st object.From 1st object we can get path.
+                    //path :-multer ne joo file upload kiya hai uska path.
 
-                const coverImageLocalPath=req.files?.coverImage[0]?.path ;
-                //req.files? :- If req.files exist karata hai
-                //avatar[0]? :- coverImage is a image and it has many properties like png,jpeg.But we need 1st object.From 1st object we can get path.
-                //path :-multer ne joo file upload kiya hai uska path.
+                //nested check:-
+                    const coverImageLocalPath=req.files?.coverImage[0]?.path ;
+                    //req.files? :- If req.files exist karata hai
+                    //avatar[0]? :- coverImage is a image and it has many properties like png,jpeg.But we need 1st object.From 1st object we can get path.
+                    //path :-multer ne joo file upload kiya hai uska path.
+
+                /*
+                    //classical way to check coverImageLocalPath present or not:-
+                        let coverImageLocalPath;
+                        
+                        if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+                            coverImageLocalPath = req.files.coverImage[0].path
+                        }
+                */
 
                 //we must check avatar path is present or not.
                 if(!avatarLocalPath){
@@ -148,6 +158,9 @@ const registerUser = asyncHandler( async(req,res)=>{
                 const avatar_cloudinary=await uploadOnCloudinary(avatarLocalPath);
                 const coverImage_cloudinary=await uploadOnCloudinary(coverImageLocalPath);
 
+                console.log("avatarLocalPath = ",avatarLocalPath);
+                console.log("avatar_cloudinary = ",avatar_cloudinary);
+                
                 //agar upload nahi hua hai toh error show karo.
                 if(!avatar_cloudinary){
                     throw new APIerror(400, "Avatar file id required!")
@@ -177,6 +190,9 @@ const registerUser = asyncHandler( async(req,res)=>{
                 }
             )
 
+        //Extra thing:-
+            console.log("req.body = ",req.body);
+            console.log("req.files = ",req.files);
            
         //6.
             //User create hua hai yaa nahi.
@@ -197,6 +213,5 @@ const registerUser = asyncHandler( async(req,res)=>{
             )
     } 
 )
-
 
 export {registerUser}

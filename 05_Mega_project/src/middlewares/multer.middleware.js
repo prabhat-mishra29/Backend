@@ -1,8 +1,9 @@
-import multer from multer;
+import multer from "multer";
 
 //Here we save not upload.
 //We have to use either diskstorage or memory.
 //We use here disk storage.
+// Set up storage for uploaded files:-
 const storage = multer.diskStorage(
     {
         //req :- coming from user.It does not have a file.
@@ -19,7 +20,8 @@ const storage = multer.diskStorage(
         }
     }
 )
-  
+ 
+// Create the multer instance:-
 export const upload = multer({ storage: storage })
 
 /*

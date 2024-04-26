@@ -1,6 +1,6 @@
 import {v2 as cloudinary} from 'cloudinary';
 
-import fs from fs;
+import fs from "fs";
 /*
     > The Node. js file system (fs) module has many methods to help with many low-level tasks.
     > You can perform various file operations like create, write, rename, copy, move, delete, and many more.
@@ -30,7 +30,7 @@ cloudinary.config({
 // It takes time to upload so we use async.
 const uploadOnCloudinary= async(localFilePath)=>{
     try {
-        if(localFilePath){
+        if(!localFilePath){
             return null;
         }
         else{
@@ -42,6 +42,9 @@ const uploadOnCloudinary= async(localFilePath)=>{
 
             //file has been uploaded successfuly and print URL in console.
             console.log("file has been uploaded successfuly",response.url);
+
+            // //after uploaded successfuly in cloudinary unlink/remove the file from server.
+            // fs.unlinkSync(localFilePath);
 
             return response;
         }

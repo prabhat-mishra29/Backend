@@ -31,7 +31,7 @@ import mongoose from 'mongoose'
 //2nd
   const userSchema=new mongoose.Schema( //It takes objects.
     {
-        username:{
+        userName:{
           type:String,
           required:true,
           unique:true,
