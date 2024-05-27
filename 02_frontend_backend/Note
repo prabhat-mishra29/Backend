@@ -10,10 +10,12 @@
     8.Create a vite_app.
     9.Go to app.jsx.
 
+    [ This module is basicaly focuses on "how do we deal with CORS"? ]
+
 #Some bad practice that are followed by industry:-
     >They push 'backend' with 'frontend' folder directly to server/digital-ocean without using 'netify' for frontend.
-    >Using 'npm run build' vite converts all data into a single folder called 'distribution' folder.
-    >for use of 'proxy' and making same origin, people deploy 'dist' to backend.
+    >Using 'npm run build' vite converts all data into a single folder called 'distribution' folder [in forntend part].
+    >for use of 'proxy' and making same origin, people deploy 'dist' folder into backend.
     >Now we can use middlewires in 'index.js' from which we can serve static assets.
     >How to use middle wire:- app.use(express.static('dist'));
     >Now restart the backend.

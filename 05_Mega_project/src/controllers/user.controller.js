@@ -23,7 +23,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const registerUser = asyncHandler( async(req,res)=>{
         //1. Get user details from frontend:-
-            //Here we frontend means we get data from postman.
+            //Here frontend means we get data from postman.
             //user ka details kya lena yee depend karega ki user model kaisa bana hai.
             //username,email,fullname,avatar,coverImage,password.
             //watchHistory and refreshtoken will add programaticaly we donot need from 'postman'.

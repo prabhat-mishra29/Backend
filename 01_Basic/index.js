@@ -44,7 +44,7 @@ const app = express()
         res.send('<h1>Please log in at chai aur code.</h1>')
     })
     /*
-        > It shows "Cannot GET /login"
+        > It shows "Cannot GET /login".
         > It is because of 'hot-reloading'.
         > Hot Reloading is a feature in React Native that allows developers to instantly see the result of the latest change.
         > Solution:- stop server and run it again.
@@ -90,7 +90,7 @@ const app = express()
         "updated_at": "2024-03-26T16:47:07Z"
       }
 
-      app.get('/github',(req,res)=>{
+    app.get('/github',(req,res)=>{
         //res.send(github)
         res.json(github)
     })

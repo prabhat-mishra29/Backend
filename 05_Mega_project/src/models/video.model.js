@@ -72,6 +72,7 @@ How to use "mongoose-aggregate-paginate-v2":-
 
     //second:-
     videoSchema.plugin(mongooseAggregatePaginate);
+    //Using this pulgin we can access basic mongoose methods as well as aggregate-paginate methods.
 
 
 //3rd:-

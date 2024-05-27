@@ -122,9 +122,9 @@ import mongoose from 'mongoose'
       //Custom methods:-
         //Database main password encrypted form main save hoga and user joo password dega login ke time woh clip-text or String main hoga.
         //For checking password we create this.
-        userSchema.methods.isPasswordCorrect= async function(password){
+        userSchema.methods.isPasswordCorrect= async function(psd){
             //bcrypt can check your password also.
-            return await bcrypt.compare(password,this.password)
+            return await bcrypt.compare(psd,this.password)
             /*
                 @param data — The data to be encrypted. (string)
 
@@ -140,14 +140,26 @@ import mongoose from 'mongoose'
     > Tokens are symbolic items that are issued by a trusted source. 
     > They can be physical, like a USB hard key, or digital, like a computer-generated message or digital signature.
     > JWT is bearer token.It acts like a key.
-    > jske pass token hai usko data send hoga.
+    > jiske pass token hai usko data send hoga.
     > JWT takes some inforamtion and gives tokens.
-    > You can get information about how to use in thier github.
+    > You can get information about how to use in their github.
+    > Example:-
+              var jwt = require('jsonwebtoken');
+              jwt.sign({
+                          data: 'foobar'
+                        },
+                        'secret', 
+                        { 
+                          expiresIn: 60 * 60 
+                        }
+                      );
+
     > Go to .env file and create ACCESS_TOKEN_SECRET,ACCESS_TOKEN_EXPIRY,REFRESH_TOKEN_SECRET,REFRESH_TOKEN_EXPIRY .
     > Here We use both sessions and cookies.
-    > Acess token will not save in databse but Refresh token will save.
+    > Access token will not save in databse but Refresh token will save.
     > Both do same work but refresh takes less inforamtion compare to access.
     > Learn difference between access token vs referesh token.
+    > Access tokens are main tokens.
     > Refresh tokens are used to obtain new access tokens for applications that need access to Google APIs beyond the lifetime of a single access token.
     > Continuous access: Users can access applications without needing to re-login frequently.
 

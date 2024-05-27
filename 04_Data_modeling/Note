@@ -21,7 +21,7 @@
         -> We use 'mongoose' here.['for helper',another example:-'prisma']
             > Mongoose is an Object Data Modeling (ODM) library for MongoDB.
             > Mongoose is used to interact with MongoDB by providing a schema-based solution.
-            > Moongse is a learning system that is based on requirements.
+            > Mongoose is a learning system that is based on requirements.
 
 #For next part we use an online coding platform "stackblitz.com".
     >Create a new project in 'stackblitz' for backend-express.

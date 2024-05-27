@@ -27,6 +27,8 @@ const router=Router();
     */
     import { upload } from "../middlewares/multer.middleware.js";
 
+    //Upload is the instance of multer.
+
     // Set up a route for file uploads:-
     router.route("/register").post(
         upload.fields(

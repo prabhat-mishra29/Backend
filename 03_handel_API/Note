@@ -1,10 +1,12 @@
 Black box API:- API which is not controlled by us.We just recieve datas from that API.
-    example:-"https://api/github/user/prabhat-mishra29".It gives data immediately.Suppose we want data after 3 sec for that case we create custom code. 
+    example:-"https://api.github.com/users/prabhat-mishra29".It gives data immediately.Suppose we want data after 3 sec for that case we create custom code. 
 
+  [This module basicaly focuses on how to implement react-query]
+  
 #Steps:-
     >1st create 'package.json' file using 'npm init'. [npm-> node package manager]
     >Then create index.js
-    >Now create your own command for running files using 'package.json'
+    >Now create your own script command for running files using 'package.json'
     >install 'express'.
     >Make type:module in package.json
     >Now go to 'index.js'.
@@ -18,6 +20,18 @@ Black box API:- API which is not controlled by us.We just recieve datas from tha
                   },
                 }, 
     10.Go to app.jsx.
-    11.Learn about react-query in app.jsx.
+    11.Learn about "react-query" in app.jsx.
 
-    12.Learn about race-condition, how to cancel a fetch request and cleaning function.
+    12.Learn about race-condition, how to cancel a fetch request and cleaning function , debouncing , throttling.
+
+      Debouncing:-
+        - Debouncing is a strategy used to improve the performance of a feature by controlling the time at which a function should be executed.
+
+        - Debouncing accepts a function and transforms it in to an updated (debounced) function so that the code inside the original function is executed after a certain period of time.
+
+        - learn how do we implement it? on "freecodecamp" website.
+
+      Throttling:-
+        - Throttling is a technique used to limit the rate at which a function is called. Throttling transforms a function such that it can only be called once in a specific interval of time.
+
+        - learn how do we implement it? on "freecodecamp" website.

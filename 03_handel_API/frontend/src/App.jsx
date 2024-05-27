@@ -48,7 +48,7 @@ function App() {
             setLoading(true);
 
             const response = await axios.get(`/api/products`); 
-            //[Kya matlab hai hamesa response ayega.Agar products ki jagah pai agar producted daal diya toh.Issilye try-catch use karenge.]
+            //[Kya matlab hai hamesa response ayega.Issilye try-catch use karenge.]
 
             console.log(response.data);
   
@@ -65,9 +65,13 @@ function App() {
       },[]);
   */
 
-  //if any changes happen to 'search' then restart the component.
+  //Kabhi kabar multiple API call chala gaya hai but hmme toh last bale ka response chahiya,baki sabko delete kardo.
+  //For example , here we use "search" space.
+  //If any changes happen to 'search' then restart the component.
   //But this will create 'race-condition'.
-  //Jo request pehle gayi hai uska data pehle ayaa,jo 2nd gaya woh 2nd ayee,latest joo request gaya uska data sabse end main ayaa taki user ko hmm updated data show kare.
+  //Jo request pehle gayi hai uska data pehle ayaa,jo 2nd gaya woh 2nd ayee,latest joo request gaya uska data sabse end main ayega taki user ko hmm updated data show kare.
+  //Suppose we want a response , when we type 'Apple'.
+  //We donot need response , when we type a,p,p,l,e [single typing].
   //Solution:- [using axios controller]
 
   /*

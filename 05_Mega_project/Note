@@ -2,7 +2,7 @@
 
 #Project Structure Steps:-
 
-    1. Create package.json using npm init.
+    1.Create package.json using npm init.
 
     2.Let's discuss how we store our images?
         > We will upload the photos to AWS, Cloudinary, and Azure. The platforms will respond to an API to be used for future cases..
@@ -20,7 +20,7 @@
     6.Create a 'src' folder in main/root.within that create app.jsx file , index.js file and constants.js file.
 
     7.Go to the package.json and make 'type' as 'module'.
-        >Whenever server file reloads , we need to stop and restart the server.Do we do everytime?
+        >Whenever server file reloads , we need to stop and restart the server.Do we really want to do everytime?
         >No, We use 'nodemon'.
         >'nodemon' is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
         >Here we install nodemon as a development dependency:
@@ -102,13 +102,14 @@
     5.Go to 'app.js' and check out how to use CORS , cookie-parser and set some rules for data which comes from different resources.
 
     6.Draw a diagram to understand middleware in eraser.io .
-        >Some information nedd to be updated:-
+        >Some information need to be updated:-
             app.get('/instagram', (err,req,res,next) => {
                 res.send('Hello World!')
             })
             - 'next' serves as a flag to pass on the reference to the next middleware until it reaches the response part.
 
-    7.We always talk with database.
+    7.We always talk with database.[like in user controller , video controller etc]
+        > Database is in another continent.
         > Did we need to use the database connection code again and again? :- No , To simplify this process, we create a utility file. This file can be imported whenever we need to use its functions or methods.
         > It acts as a wrapper.
             - We can use two different ways to do this.1st one is asyncHandler[using promises] and second one is try-catchHandler.
@@ -138,7 +139,9 @@
         
         > MongoDB's aggregation framework operates using a pipeline model, where data flows through multiple stages of transformation. Each stage in the pipeline performs a specific operation on the data, such as filtering, grouping, or projecting, and passes the results to the next stage.
 
-        >Use:-Go to video.model.
+        > We will study this later.
+
+        > Use:-Go to video.model.
 
     4.For password encrypted-decrypted problem:- We use bcrypt/bcrypt.js.
         > A library to help you hash passwords.
@@ -151,21 +154,22 @@
     5.For tokens we use JWT:-
         > JSON Web Tokens (JWTs) are a standardized way to securely send data between two parties. They contain information (claims) encoded in the JSON format. These claims help share specific details between the parties involved.
         > Learn about it on JWT.io .
-        > Install jasonwebtokens .
+        > Install jsonwebtokens .
 
-    6.Both bcrypt and jasonwebtokens uses cryptography.
+    6.Both bcrypt and jsonwebtokens uses cryptography.
 
-    7.Go to user.model and see how to use bcrypt,jasonwebtokens.
+    7.Go to user.model and see how to use bcrypt,jsonwebtokens.
 
-    8.Learn middleware hooks and methods from mongoose documentation.
+    8.Learn middleware , types middleware and methods from mongoose documentation.
+        > Mongoose has 4 types of middleware: document middleware, model middleware, aggregate middleware, and query middleware.
 
-    9.Learn difference bwtween access token vs referesh token.
+    9.Learn difference bewtween access token vs referesh token.
 
 
 # How to upload file in backend | Multer :-
     1.File handling doest not do in your own server , it uses either third party resources or AWS.Depend upon file size,calculation rate we choose resources.
 
-    2.We make a separate utility/middleare for file uploader.We can use same code for image upload,pdf upload,video upload.
+    2.We make a separate utility/middleware for file uploader.We can use same code for image upload,pdf upload,video upload.
         > Depending on the type of end-points, we utilize middleware to interact with these end-points.
 
     3.We use 'cloudinary'.Create your own account and install it on VS-code.
@@ -349,7 +353,7 @@
 
     4. Before giving some inforamtion by server , middleware checks .
 
-    5. In our case middleware is "multer" which upload your file in your server. It is stored in "./public/temp".
+    5. In our case middleware is "multer" which upload your file in our server. It is stored in "./public/temp".
 
     6. We use the "POST" method for adding the data to the HTTP routes.
 
@@ -377,3 +381,4 @@
 
 
 # Access Refresh Token, Middleware and cookies in Backend :-
+    

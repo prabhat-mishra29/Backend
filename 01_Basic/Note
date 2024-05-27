@@ -1,8 +1,9 @@
 #Steps:-
     >1st create 'package.json' file using 'npm init'. [npm-> node package manager]
     >Then create index.js
-    >Now create your own command for running files using 'package.json'
-    >install 'express'.
+    >Now create your own script command for running files using 'package.json'
+    >install 'express' and 'dotenv'.
+    >Learn what is the use of 'dotenv'.
     >Now go to 'index.js'.
     
     >How to deploy your code in production["digital ocean"]->watch video - 02

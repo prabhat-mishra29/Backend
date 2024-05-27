@@ -1,5 +1,5 @@
 class APIresponse{
-    constructor(statusCode,data,message="Something went wrong"){
+    constructor(statusCode,data,message="Success"){
         //override:-
             this.statusCode=statusCode
             this.data=data

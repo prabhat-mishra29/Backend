@@ -16,21 +16,21 @@ function App() {
 
 /*
   //When application loads we get our jokes:-
-  useEffect(()=>{
-    //How fetch data or how to send request to the backend.
-    axios.get(`http://localhost:3000/jokes`)      
-      .then( (response)=>{
-        //No need to convert it to json,it automatically handel by 'axios'.
-        setJokes(response.data) //To get data
-      } )
-      .catch((error)=>{
-        console.log(error)
-      })
-  },[]);
+    useEffect(()=>{
+      //How fetch data or how to send request to the backend.
+      axios.get(`http://localhost:3000/jokes`)      
+        .then( (response)=>{
+          //No need to convert it to json,it automatically handel by 'axios'.
+          setJokes(response.data) //To get data
+        } )
+        .catch((error)=>{
+          console.log(error)
+        })
+    },[]);
 */
 
 /*
-  //NOte:-
+  //Note:-
     >After reloading site we will see in console that it gives you a 'CORS' error.
 
     >" Access to XMLHttpRequest at 'http://localhost:3000/jokes' from origin 'http://localhost:5173' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. "
