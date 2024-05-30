@@ -3,6 +3,7 @@ import { APIerror } from "../utils/APIerror.js";
 import { APIresponse } from "../utils/APIresponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import jwt from "jsonwebtoken";
 
 // Controller:-is a part of the software that handles user inputs and makes decisions about what data should be presented to the user and how it should be presented.
 // So we create a register method which gets data from user and sends required data to user.
@@ -113,6 +114,7 @@ const registerUser = asyncHandler( async(req,res)=>{
                 const existedUser = await User.findOne({
                     $or: [{userName}, {email}]
                     //Check userName or email present or not
+                    //$or = is a mongoDB operators
                 })
             
                 if (existedUser) {
@@ -170,6 +172,7 @@ const registerUser = asyncHandler( async(req,res)=>{
         //5.
             //data base entry.
             //Here "User" is mongoose User.
+            //user is a variable here.
             //Database ke sath batt karne pai lagega time.Database lies on different continent.
             const user=await User.create(
                 //takes object
@@ -214,4 +217,241 @@ const registerUser = asyncHandler( async(req,res)=>{
     } 
 )
 
-export {registerUser}
+
+//Login user:-
+
+        //Standardize method for creating both access and refresh token:-
+        const generateAccessAndRefereshTokens = async(userId) =>{
+            //"User" :- mongoose 'User'
+            //user :- variable
+            try {
+                const user = await User.findById(userId);
+
+                const accessToken = user.generateAccessToken();
+                const refreshToken = user.generateRefreshToken();
+
+                //We give access token to user and save refresh token in our database.
+                user.refreshToken = refreshToken
+                //mongoose "refreshToken"
+
+                //Save it.
+                await user.save({ validateBeforeSave: false })
+                //Validate kuch matt karo direct save kardo.
+
+                return {accessToken, refreshToken}
+
+            } catch (error) {
+                throw new APIerror(500, "Something went wrong while generating referesh and access token")
+            }
+        }
+   
+        
+const loginUser = asyncHandler( async(req,res) => {
+        // 1.Get data from user using "req.body".
+        // 2.username based checking or email based checking.
+        // 3.find the user.
+        // 4.check password.
+        // 5.If password is incorrect , then show some message.
+        // 6.If it is correct then generate both access and refresh tokens and send them to the user in the form of cookies.
+        // 7.Send response.
+
+        //2:-
+            const {email, userName, password} = req.body
+            console.log(email);
+
+            if (!userName && !email) {
+                throw new APIerror(400, "username or email is required")
+            }
+        
+            // Here is an alternative of above code based on logic discussed in video:
+                // if (!(userName || email)) {
+                //     throw new APIError(400, "username or email is required")
+                    
+                // }
+
+            
+        //3:-
+            //User :- mongoose 'User'
+            //user is a variable here.
+            const user = await User.findOne({
+                $or: [{userName}, {email}]
+                //Check either userName or email present in database or not.
+                //$or = is a mongoDB operator
+            })
+
+            if (!user) {
+                throw new APIerror(404, "User does not exist")
+            }
+
+        
+        //4:-
+            const isPasswordValid = await user.isPasswordCorrect(password)
+            //It was a method that was created when we configured the 'user' model.
+
+            if (!isPasswordValid) {
+                throw new APIerror(401, "Invalid user credentials")
+                }
+
+
+        //5:-        
+            //We will create a standardize method for creating both refresh and acess tokens.(at line number 223)
+            const {accessToken, refreshToken} = await generateAccessAndRefereshTokens(user._id)
+            console.log("refreshToken = ",refreshToken);
+            console.log("accessToken = ",accessToken);
+
+
+        //6:-
+            const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+
+            console.log(loggedInUser)
+
+            //Send both refreshToken and accessToken in the form of cookies.
+
+            //setting some options for cookie:-
+            const options = {
+                //By default, anyone can modify cookies on the frontend side.
+                //When we use these syntaxes, they can only be modified by the server side.
+                httpOnly: true,
+                secure: true
+            }
+
+            //By using "cookie parser," we can access cookies on both 'req' and 'res'.
+            return res
+                    .status(200)
+                    .cookie("accessToken", accessToken, options)
+                    //          key             value
+                    .cookie("refreshToken", refreshToken, options)
+                    //          key             value
+                    .json(
+                        new APIresponse(
+                            200, 
+                            {
+                                user: loggedInUser,
+                                accessToken,
+                                refreshToken
+                                //We have already set tokens in the form of cookies, so why do we need to send them again?
+                                //This edge case is valid when the user wants to store them in their local storage or header files for mobile applications.
+                            },
+                            "User logged In Successfully"
+                        )
+                    )
+    } 
+)
+
+
+//Logout user:---
+    //Agar user logout karr diya toh usse resource access karne ke liye dubara login karna padega.
+    //For that we remove cookies and reset refresh tokens.
+    //By using "cookie parser," we can access cookies on both 'req' and 'res'.
+    const logoutUser = asyncHandler(async(req, res) => {
+        //How to find user?
+        //In login, we use email and password for verifying the user.
+        //Do we need email and password for finding the user in logout? -> No
+        //We will crate a custom middleware to solve this problem.[Go to auth.middleware]
+
+
+        // After creating the auth.middleware.js and adding it as a middleware in the routes, we were able to access the "req.user" object.
+        await User.findByIdAndUpdate(
+            //Parameter:- id , update , options .
+            req.user._id,
+            {
+                //mongoDB operator
+                //The $unset operator deletes a particular field.
+                $unset: {
+                    refreshToken: 1 // this removes the field from document
+                }
+            },
+            {
+                //We will receive a new response in return.
+                new: true
+            }
+        )
+
+        //cookie's options
+        const options = {
+            httpOnly: true,
+            secure: true
+        }
+
+        return res
+            .status(200)
+            .clearCookie("accessToken", options)
+            .clearCookie("refreshToken", options)
+            .json(new APIresponse(200, {}, "User logged Out"))
+            //                      data=empty 
+
+        // Here we can create a "req.user" object without using middleware. However, creating a separate middleware for this is not the only scenario where we check if the user is present. This can be implemented for various purposes such as adding a post, liking a post, etc.
+    }
+)
+
+
+// We will create an endpoint,where user can refresh it's expiry.
+    const refreshAccessToken = asyncHandler(async (req, res) => {
+        //How to access refresh token?
+        //If someone hit an endpoint , then we will collect refresh token from their cookies.
+            const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+            //                                                       for mobile application
+            console.log("incomingRefreshToken = ",incomingRefreshToken);
+
+        if (!incomingRefreshToken) {
+            throw new APIerror(401,"unauthorized request")
+        }
+
+        try {
+            //Retrive user information from incoming refresh token.
+                //Decode incoming refresh token.
+                //find user.
+                const decodedToken = jwt.verify(
+                    incomingRefreshToken,
+                    process.env.REFRESH_TOKEN_SECRET
+                )
+            
+                const user = await User.findById(decodedToken?._id)
+            
+                if (!user) {
+                    throw new APIerror(401, "Invalid refresh token")
+                }
+        
+            //compare incoming refersh token with database refresh token.
+                //If not:-
+                if (incomingRefreshToken !== user?.refreshToken) {
+                    throw new APIerror(401, "Refresh token is expired or used")
+                    
+                }
+        
+                //If yes:-
+                //cookie option:-
+                    const options = {
+                        httpOnly: true,
+                        secure: true
+                    }
+            
+                //Generate new access token:-
+                    const {AccessToken, RefreshToken} = await generateAccessAndRefereshTokens(user._id)
+            
+                    console.log("AccessToken = ",AccessToken);
+                    console.log("RefreshToken = ",RefreshToken);
+
+                return res
+                    .status(200)
+                    .cookie("accessToken", AccessToken, options)
+                    .cookie("refreshToken", RefreshToken, options)
+                    .json(
+                        new APIresponse(
+                            200, 
+                            {
+                                accessToken:AccessToken,
+                                refreshToken:RefreshToken
+                            },
+                            "Access token refreshed"
+                        )
+                    )
+        }
+        catch (error) {
+            throw new APIerror(401, error?.message || "Invalid refresh token")
+        }
+    }
+)
+
+
+export {registerUser,loginUser,logoutUser,refreshAccessToken}

@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { registerUser } from "../controllers/user.controller.js";
+import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../controllers/user.controller.js";
 
 
 const router=Router();
@@ -27,9 +27,9 @@ const router=Router();
     */
     import { upload } from "../middlewares/multer.middleware.js";
 
-    //Upload is the instance of multer.
-
-    // Set up a route for file uploads:-
+    //For registration:-
+        //Upload is the instance of multer.
+        // Set up a route for file uploads:-
     router.route("/register").post(
         upload.fields(
             //It takes an array of objects.
@@ -45,5 +45,19 @@ const router=Router();
             ]
         ),
         registerUser);
+
+
+    import { verifyJWT } from "../middlewares/auth.middleware.js";
+    //For login:-
+        router.route("/login").post(loginUser)
+
+    //Secured routes:-
+        //For logout:-
+            router.route("/logout").post(verifyJWT, logoutUser)
+            //                           middleware
+            //Logout karne se pehle check karo middleware.
+
+        //For refresh accessToken:-
+            router.route("/refresh-access-token").post(refreshAccessToken)
 
 export {router};

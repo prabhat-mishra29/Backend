@@ -38,6 +38,7 @@ app.use(cors(
     //We can access and set cookies from the user's browser with the help of the server.So that we can perform some 'crud-operations'.
     //Create, read, update, and delete (CRUD)
     //There are some ways you can set secure cookies to the user's browser.These secure cookies can only read and access by server.
+    //It is a middleware.
     //For configuration:-
         app.use(cookieParser())
 

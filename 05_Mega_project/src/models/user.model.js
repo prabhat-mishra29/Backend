@@ -77,7 +77,6 @@ import mongoose from 'mongoose'
                 {
                     type:mongoose.Schema.Types.ObjectId,
                     ref:"Video",
-                    required:true,
                 }
             ]
         },
@@ -172,16 +171,14 @@ import mongoose from 'mongoose'
                   //key : from database
                   _id:this._id,
                   email:this.email,
-                  username:this.username,
+                  userName:this.userName,
                   fullName:this.fullName
                 },
-
                 //access token secret:-
                 process.env.ACCESS_TOKEN_SECRET,
-
-                //acess token expiry:-
                 {
-                  expiresIn:process.env.ACCESS_TOKEN_EXPIRY,
+                  //acess token expiry:-
+                  expiresIn:process.env.ACCESS_TOKEN_EXPIRY
                 }
               ) 
           }
@@ -194,13 +191,12 @@ import mongoose from 'mongoose'
                 //key : from database
                 _id:this._id,
               },
-
+              
               //access token secret:-
               process.env.REFRESH_TOKEN_SECRET,
-
-              //acess token expiry:-
               {
-                expiresIn:process.env.REFRESH_TOKEN_EXPIRY,
+                //acess token expiry:-
+                expiresIn:process.env.REFRESH_TOKEN_EXPIRY
               }
             ) 
           }

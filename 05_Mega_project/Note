@@ -381,4 +381,27 @@
 
 
 # Access Refresh Token, Middleware and cookies in Backend :-
-    
+    Part-1:-
+        > difference between access token and refresh token:--
+            - Access token is a shortlived token where as refresh token is a longlived token.
+            - Access token doesnot save in database but refresh does.
+            - Learn from descope.
+            
+        > Now it is the time for creating "loginUser" and "logoutUser".Go to the user.Controller.js.
+
+        > We will create a custom middleware for logout service.[go to auth.middleware.js].
+
+        > After creating the auth.middleware.js, proceed to the usre.routes to inject it.
+
+    Part-2:-
+        > Debugg "loginUser" and logoutUser" [user.controller.js]
+
+        > Agar access token ka session expire hogaya hai toh frontend bala ek aur request bhej ke access token ko phir se create karr deta hai.
+            - Agar access token expire hogaya,toh 401 request ayega.Dubara user ko login karna na pade toh frontend bala cookies se refresh token leke ek request bhejta hai.["endpoint hit karega"]
+            - Agar bheja gaya refresh token and database main rakha refresh token same hai toh fir se ek aur access token generate hota hai.
+            - We will create an endpoint,where user can refresh it's expiry. [user.controller.js {refreshAccessToken}]
+
+            - Create a separate secure route for refreshAccessToken.[got to user.routes.js]
+
+
+# Writing update controllers for user :-
