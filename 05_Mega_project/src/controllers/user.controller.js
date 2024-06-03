@@ -454,7 +454,7 @@ const loginUser = asyncHandler( async(req,res) => {
 )
 
 
-// Change current password:-
+// Change current password:-[We perform "CRUD" operations here.]
     const changeCurrentPassword = asyncHandler(async(req, res) => {
         //Take oldPassword and newPassword from user[request].
             const {oldPassword, newPassword} = req.body;
