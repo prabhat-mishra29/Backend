@@ -52,15 +52,50 @@ const uploadOnCloudinary= async(localFilePath)=>{
     catch (error) {
         //unlink the file.
         //Remove the locally saved temporary file as the upload opeartions got failed.
-        fs.unlinkSync(localFilePath); //unlink in syncronous way.
+        //fs.unlinkSync(localFilePath); //unlink in syncronous way.
         return null;
     }
 }
-
-export {uploadOnCloudinary} 
 
 /*
     cloudinary.uploader.upload("https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
     { public_id: "olympic_flag" }, 
     function(error, result) {console.log(result); });
 */
+
+
+// We create a method that takes a path as a parameter. Then it will delete old files in 'Cloudinary'.
+// It takes time to delete so we use async.
+const deleteOnCloudinary= async(localFilePath)=>{
+    try {
+        if(!localFilePath){
+            return null;
+        }
+        else{
+            //delete file:-
+                //Learn how to delete and what type of options you can give in delete().
+                // To delete a file in Cloudinary using its file path, you still need to use the public_id of the file. Cloudinary does not use the file path directly for deletion, but rather the public_id that corresponds to the uploaded file.
+
+                //Steps:-
+                    //1. Extract the public_id from the File Path.
+                    //2. Delete the File Using the Extracted public_id.
+
+                //syntax:-
+                    //cloudinary.v2.uploader.destroy(public_id, options).then(callback);
+
+                // Extract the public_id from the file path (remove the file extension)
+                const public_id = localFilePath.rsplit('.', 1)[0];
+
+            const response=await cloudinary.uploader.destroy(public_id,
+                { resource_type:"auto" }
+            );
+
+            return response;
+        }
+    } 
+    catch (error) {
+        return null;
+    }
+}
+
+export {uploadOnCloudinary,deleteOnCloudinary} 

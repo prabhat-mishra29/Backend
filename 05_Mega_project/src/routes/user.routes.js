@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../controllers/user.controller.js";
+import { changeCurrentPassword, getCurrentUser, getUserChannelProfile, getWatchHistory, loginUser, logoutUser, refreshAccessToken, registerUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage } from "../controllers/user.controller.js";
 
 
 const router=Router();
@@ -60,4 +60,29 @@ const router=Router();
         //For refresh accessToken:-
             router.route("/refresh-access-token").post(refreshAccessToken)
 
+        //For change-password:-
+            router.route("/change-password").post(verifyJWT, changeCurrentPassword)
+
+        //For getting information about current user:-
+            router.route("/current-user").get(verifyJWT, getCurrentUser)
+
+        //For updating account details:-
+            router.route("/update-account").patch(verifyJWT, updateAccountDetails)
+
+        //For updating user-avatar:-
+            //1st verify "user is present or not?" , then go for file upload.
+            router.route("/avatar").patch(verifyJWT, upload.single("avatar"), updateUserAvatar)
+
+        //For updating user-coverImage:-
+            //1st verify "user is present or not?" , then go for file upload.
+            router.route("/cover-image").patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage)
+
+        //For getting inforamtion about a channel:-
+            // " : " => It is important.
+            router.route("/c/:userName").get(verifyJWT, getUserChannelProfile)
+
+        //For getting watch history of an user:-
+            router.route("/history").get(verifyJWT, getWatchHistory)
+
+            
 export {router};

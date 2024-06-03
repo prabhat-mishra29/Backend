@@ -2,7 +2,7 @@ import { User } from "../models/user.model.js";
 import { APIerror } from "../utils/APIerror.js";
 import { APIresponse } from "../utils/APIresponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { deleteOnCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 
 // Controller:-is a part of the software that handles user inputs and makes decisions about what data should be presented to the user and how it should be presented.
@@ -454,4 +454,394 @@ const loginUser = asyncHandler( async(req,res) => {
 )
 
 
-export {registerUser,loginUser,logoutUser,refreshAccessToken}
+// Change current password:-
+    const changeCurrentPassword = asyncHandler(async(req, res) => {
+        //Take oldPassword and newPassword from user[request].
+            const {oldPassword, newPassword} = req.body;
+
+        //If the user is logIn , using "verifyJWT" we will get information about the user.
+            const user = await User.findById(req.user?._id);
+
+        //Please verify whether the 'oldPassword' matches the password saved in the database.
+            const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+
+            if (!isPasswordCorrect) {
+                throw new APIerror(400, "Invalid old password")
+            }
+
+            console.log(oldPassword);
+
+        //changethe  password and save.
+            user.password = newPassword;
+            await user.save({validateBeforeSave: false});
+
+            return res
+                .status(200)
+                .json(new APIresponse(200, {}, "Password changed successfully"))
+            })
+
+
+// Get current user:-
+    // We have a middleware called "verifyJWT" which gives us information about the user(req.user).
+    const getCurrentUser = asyncHandler(async(req, res) => {
+        return res
+            .status(200)
+            .json(new APIresponse(
+                200,
+                req.user,
+                "User fetched successfully"
+            ))
+    })
+
+
+// update user account details:-
+    const updateAccountDetails = asyncHandler(async(req, res) => {
+        const {fullName, email} = req.body;
+
+        if (!fullName || !email) {
+            throw new APIerror(400, "All fields are required")
+        }
+
+        //We have a middleware called "verifyJWT" which gives us information about the user(req.user).
+        //Parameter:- id , update , options .
+        const user = await User.findByIdAndUpdate(
+            req.user?._id,
+            {
+                //operator:-
+                //The $set operator replaces the value of a field with the specified value.
+                $set: {
+                    fullName,
+                    email:email
+                }
+            },
+            {
+                //updated new response return hoga.
+                new: true
+            }
+            
+        ).select("-password")
+
+        return res
+            .status(200)
+            .json(new APIresponse(200, user, "Account details updated successfully"))
+    });
+
+
+//Time for updating files:-
+    // Here we use two middlewares multer and verifyJWt[wohi logg update karenge joo login hoo.]
+
+    const updateUserAvatar = asyncHandler(async(req, res) => {
+        //using multer middleware, we get req.file .
+        //Here we need to update one file so we use "req.file". But in 'register', we upload two fields so we use "req.files". 
+        const avatarLocalPath = req.file?.path;
+    
+        if (!avatarLocalPath) {
+            throw new APIerror(400, "Avatar file is missing")
+        }
+    
+
+        //TODO: delete old image - assignment
+        //Retrive 'url' from the user using "req.user".
+            const help=await User.findById(
+                req.user?._id
+            ).select("-password -refreshToken");
+            
+            const oldPath=help.avatar;
+
+            const check=await deleteOnCloudinary(oldPath);
+
+            if(!check){
+                throw new APIerror(400,"Some problem on delete avatar in the Cloudinary!") 
+            }
+    
+
+        const avatar = await uploadOnCloudinary(avatarLocalPath); //return avatar object
+    
+        if (!avatar.url) {
+            throw new APIerror(400, "Error while uploading on avatar") 
+        }
+    
+        //We have a middleware called "verifyJWT" which gives us information about the user(req.user).
+        //Parameter:- id , update , options .
+        const user = await User.findByIdAndUpdate(
+            req.user?._id,
+            {
+                $set:{
+                    avatar:avatar.url //We need avatar.url .
+                }
+            },
+            {new: true}
+        ).select("-password")
+    
+        return res
+            .status(200)
+            .json(
+                new APIresponse(200, user, "Avatar image updated successfully")
+            )
+    })
+
+    const updateUserCoverImage = asyncHandler(async(req, res) => {
+        //using multer middleware, we get req.file .
+        //Here we need to update one file so we use "req.file". But in 'register', we upload two fields so we use "req.files". 
+        const coverImageLocalPath = req.file?.path;
+    
+        if (!coverImageLocalPath) {
+            throw new APIerror(400, "Cover image file is missing")
+        }
+    
+        //TODO: delete old image - assignment
+        //Retrive 'url' from the user using "req.user".
+            const help=await User.findById(
+                req.user?._id
+            ).select("-password -refreshToken");
+            
+            const oldPath=help.coverImage;
+
+            const check=await deleteOnCloudinary(oldPath);
+
+            if(!check){
+                throw new APIerror(400,"Some problem on deleting coverImage in the Cloudinary!") 
+            }
+
+        const coverImage = await uploadOnCloudinary(coverImageLocalPath) //return coverImage object
+    
+        if (!coverImage.url) {
+            throw new APIerror(400, "Error while uploading on avatar")
+        }
+    
+        //We have a middleware called "verifyJWT" which gives us information about the user(req.user).
+        //Parameter:- id , update , options .
+        const user = await User.findByIdAndUpdate(
+            req.user?._id,
+            {
+                $set:{
+                    coverImage: coverImage.url // we need coverImage.url .
+                }
+            },
+            {new: true}
+        ).select("-password")
+    
+        return res
+            .status(200)
+            .json(
+                new APIresponse(200, user, "Cover image updated successfully")
+            )
+    })
+
+
+// MongoDB aggregation pipelines for connecting subscription and user models.
+    const getUserChannelProfile = asyncHandler(async(req, res) => {
+        // When you need a channel's profile, you go to its URL.
+        //  example:- /chai-aur-code or /take-you-forward
+        //So we use 'req.params'.
+
+        const {userName} = req.params;
+
+        if (!userName) {
+            throw new APIerror(400, "userName is missing")
+        }
+
+        userName.trim();
+
+        /*
+            Brute force approach:-
+                user=User.find(userName)
+                //1st, we will retrieve the 'user' from the database and then 'aggregate' it based on their 'id'.
+        */
+
+        //Direct method using aggregation:-
+        const channel = await User.aggregate([
+            {
+                //Usually,we take 'match' as our first pipeline.
+                // Filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
+                //  syntax :- { $match: { <query> } }
+
+                //'User' collection main jitne v 'userName' hain , jiska 'userName' ke sath match hua woo return karo.
+                // example:- 'chai-aur-code' user
+                $match: {
+                    userName: userName?.toLowerCase()
+                }
+                //We have one userName here, so it will display information about that user.
+            },
+            {
+                $lookup: {
+                    from: "subscriptions", //kahan se lana hai.
+                    localField: "_id", // konse current document ke field se connect karna hai.
+                    foreignField: "channel", // konsa foreign field akee connect hoga. 
+                    as: "subscribers" // konse name se represent hoga.
+                    //main jiska channnel rahunga , unhone mujhe subscribe kiya hai.
+                    //jiska channel='chai-aur-code' hoga, wohh mera subscriber hoga.
+                }
+            },
+            {
+                $lookup: {
+                    from: "subscriptions",
+                    localField: "_id",
+                    foreignField: "subscriber",
+                    as: "subscribedTo"
+                    //maine jiss jisko subscribe kiye hai,unka subscriber main rahunga.
+                    //jiska subscriber='chai-aur-code' hoga, unko maine subscribe kiya hai.
+                }
+            },
+            {
+                // Adds new fields to documents. $addFields outputs documents that contain all existing fields from the input documents and newly added fields.
+                // { $addFields: { <newField>: <expression>, ... } }
+                //We will add three new fileds in 'chai-aur-code' user.
+                $addFields: {
+                    subscribersCount: {
+                        $size: "$subscribers"
+                        // "subscribers" is also now become a field , so we use '$'.
+                    },
+                    channelsSubscribedToCount: {
+                        $size: "$subscribedTo"
+                        // "subscriberedTo" is also now become a field , so we use '$'.
+                    },
+
+                    //We will send a message either true or false so that the frontend will deal with it according to it.
+                    isSubscribed: {
+                        $cond: {
+                            //The $in operator selects the documents where the value of a field equals any value in the specified array.
+                            // { field: { $in: [<value1>, <value2>, ... <valueN> ] } }
+                            // apke pass joo document ayaa hai "subscribers" usme mainhnuu yaa nai?
+                            /*
+                                > Suppose prabhat ne check kiya 'chai-aur-code' user ke profile ko.
+                                > req.params :- chai-aur-code
+                                > req.user[verify JWT] :- prabhat
+                                > Check 'prabhat' , 'chai-aur-code' user ke subscribers main present hai hai nai.
+                            */
+                            if: { $in: [ req.user?._id, "$subscribers.subscriber"] },
+                            // "subscribers" = array objects.
+                            // object consist of 'subscriber','channel'.
+                            // Here channel is already fixed. i.e. 'chai-aur-code'.
+                            // Only 'subscriber' holds different users.
+                            then: true,
+                            else: false
+                        }
+                    }
+                }
+            },
+            {
+                // Passes along the documents with the requested fields to the next stage in the pipeline. The specified fields can be existing fields from the input documents or newly computed fields.
+                // Selected things will be return to the viewer.
+                // Here 'prabhat'.
+                $project: {
+                    fullName: 1,
+                    userName: 1,
+                    subscribersCount: 1,
+                    channelsSubscribedToCount: 1,
+                    isSubscribed: 1,
+                    avatar: 1,
+                    coverImage: 1,
+                    email: 1
+                }
+            }
+        ])
+
+        if (!channel?.length) {
+            throw new APIerror(404, "channel does not exists")
+        }
+
+        console.log("channel = ",channel);
+        //returns a document that contains an array of modified objects.
+
+        //Here we will return one object.
+        return res
+            .status(200)
+            .json(
+                new APIresponse(200, channel[0], "User channel fetched successfully")
+            )
+    })
+
+
+// Nested lookup for "watch_history":- 
+    //Why do we use ObjectId[] for storing ids of 'videos model?
+    //  less in number , we can use array here.
+
+    /*
+        > What do you get from 'req.user._id'? 
+            example:-
+            - a string , "6658cd7ba48e434ed28816d6"
+            - monogoose convert this string to mongoDB ID.
+            - ObjectId('6658cd7ba48e434ed28816d6')
+    */
+
+   // req.user = coming from cookies [verifyJWT]
+
+    const getWatchHistory = asyncHandler(async(req, res) => {
+        const user = await User.aggregate([
+            {
+                $match: {
+                    // _id:req.user._id; [ Not possible here ] Why?
+                    // mongoose is not used here.So it can not convert from string to ObjectId.
+                    //So we create mongoose ObjectId on our own.
+                    _id: new mongoose.Types.ObjectId(req.user._id)
+                }
+            },
+            {
+                //We are in 'user' model now.
+                $lookup: {
+                    // Get video_id from video model.
+                    from: "videos",
+                    localField: "watchHistory",
+                    foreignField: "_id", //video-id
+                    as: "watchHistory",
+                    //To get the owner's information, we create a sub-pipeline.
+                    pipeline: [
+                        {
+                            // Get owner information from user model.
+                            $lookup: {
+                                from: "users",
+                                localField: "owner",
+                                foreignField: "_id",
+                                as: "owner",
+
+                                // User ka sara information agaya hai.lekin hamme selected return karna hai.
+                                // TODO :- Agar hmm second stage pai 'project' operator use karte toh kya hota? [Do and see what happens.]
+                                // Structure of data will be changed.
+
+                                pipeline: [
+                                    {
+                                        $project: {
+                                            fullName: 1,
+                                            userName: 1,
+                                            avatar: 1
+                                        }
+                                    }
+                                ]
+                            }
+
+                        },
+
+                        // We add a second pipeline for a better understanding of the frontend part.
+                        // owner field gives you an array of objects.
+                        // arr[0] will return an object contains owner's fullName,userName,avatar.
+                        
+                        // For better usage, we add a new field that will return 1st object of an object.
+                        {
+                            $addFields:{
+                                owner:{
+                                    $first: "$owner"
+                                }
+                            }
+                        }
+                    ]
+
+                }
+            }
+        ])
+    
+        console.log("user = ",user);
+
+        return res
+            .status(200)
+            .json(
+                new APIresponse(
+                    200,
+                    user[0].watchHistory, //1st value from aggregation pieline.
+                    "Watch history fetched successfully"
+                )
+            )
+    })
+
+
+export {registerUser,loginUser,logoutUser,refreshAccessToken,changeCurrentPassword,getCurrentUser,updateAccountDetails,updateUserAvatar,updateUserCoverImage,getUserChannelProfile,getWatchHistory}

@@ -405,3 +405,154 @@
 
 
 # Writing update controllers for user :-
+    > Here we create the basic structure of the subscription model.
+    > What do you mean by subscription?
+        - There is a channel that has subscribers.
+        - Channel is a "user" and subscribers are also "users".
+        - Create subscriptions.model.js .
+
+    > Now we create some methods for user.controller.js .
+        [changeCurrentPassword,getCurrentUser,updateAccountDetails,updateUserAvatar,updateUserCoverImage]
+
+    > Todo:-Delete old images in "cloudinary".
+        - Go to "cloudinary.js".
+
+    > Professional approach :- When updating or deleting a file/image/PDF, create a separate controller for it instead of using it in the user controller.
+        [For network congestion, we separate these files. But we can create it in the user.controller also.]
+
+
+# Understand the subscription Schema :-
+    > Why do we create a separate subscription schema?
+        - In YouTube, we notice that each user has a subscriber count and a count of channels to which they are subscribed..
+        - Channel is nothing but a "user" and subscribers are also "users".
+        - We want to maintain these two functionality.
+        - If we create an array to store the 'user_ids' of subscribers, we may encounter a problem when handling a very large number of subscribers, such as 1 million.
+        - So we create separate schema.
+
+    > In subscription schema, we have two major things i.e. a channel and a subscriber.
+
+    > The question is, if you are not using an array to store the count of subscribed users and their information, how will you store that?
+
+    > Follow notes to understand it properly.
+
+
+# Learn Mongodb aggregation pipelines :-
+    > Our main goal is to perform 'join'/'left join' operation between the 'user' and 'subscriptions' model.
+
+    > We will learn about Mongodb aggregation pipeline.
+
+    > Aggregation Pipeline :-
+        - An aggregation pipeline consists of one or more stages that process documents:
+
+            = Each stage performs an operation on the input documents. For example, a stage can filter documents, group documents, and calculate values.
+
+            = The documents that are output from a stage are passed to the next stage.
+
+            = An aggregation pipeline can return results for groups of documents. For example, return the total, average, maximum, and minimum values.
+
+        - This section shows aggregation pipeline examples that use the following pizza orders collection:-
+            db.orders.insertMany( [
+                { _id: 0, name: "Pepperoni", size: "small", price: 19,
+                    quantity: 10, date: ISODate( "2021-03-13T08:14:30Z" ) },
+                { _id: 1, name: "Pepperoni", size: "medium", price: 20,
+                    quantity: 20, date : ISODate( "2021-03-13T09:13:24Z" ) },
+                { _id: 2, name: "Pepperoni", size: "large", price: 21,
+                    quantity: 30, date : ISODate( "2021-03-17T09:22:12Z" ) },
+                { _id: 3, name: "Cheese", size: "small", price: 12,
+                    quantity: 15, date : ISODate( "2021-03-13T11:21:39.736Z" ) },
+                { _id: 4, name: "Cheese", size: "medium", price: 13,
+                    quantity:50, date : ISODate( "2022-01-12T21:23:13.331Z" ) },
+                { _id: 5, name: "Cheese", size: "large", price: 14,
+                    quantity: 10, date : ISODate( "2022-01-12T05:08:13Z" ) },
+                { _id: 6, name: "Vegan", size: "small", price: 17,
+                    quantity: 10, date : ISODate( "2021-01-13T05:08:13Z" ) },
+                { _id: 7, name: "Vegan", size: "medium", price: 18,
+                    quantity: 10, date : ISODate( "2021-01-13T05:10:13Z" ) }
+            ] )
+
+        - The following aggregation pipeline example contains two stages and returns the total order quantity of medium size pizzas grouped by pizza name:
+            //Array ke bichh main likha jayega.
+            db.orders.aggregate( [
+                // Stage 1: Filter pizza order documents by pizza size
+                {
+                    $match: { size: "medium" }
+                },
+
+                // Stage 2: Group remaining documents by pizza name and calculate total quantity
+                {
+                    $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
+                }
+            ] )
+
+        - Now go mongoDB atlas and see "aggregate".
+            > insert data in mongoDB atlas mode:-
+                1.Click Insert Document.
+                2.Click the {} icon, which opens the JSON view.
+                3.Paste the document array into the text entry field.
+                4.We will create two documents author and book.
+                    author:
+                        [
+                            { "_id":100,"name":"Arjun","DOB":2002 },
+                            { "_id":200,"name":"Prabhat","DOB":2001 },
+                            { "_id":300,"name":"Amresh","DOB":2002 },
+                            { "_id":400,"name":"Gourab","DOB":2001 }
+                        ]
+                    book:
+                        [
+                            {"_id":1,"author_id":100,"title":"A book","genre":"classical"},
+                            {"_id":2,"author_id":200,"title":"B book","genre":"pop"},
+                            {"_id":3,"author_id":300,"title":"C book","genre":"secondary"},
+                            {"_id":4,"author_id":400,"title":"D book","genre":"filter"},
+                        ]
+
+            > We will join[left-join] books with author using the "lookup" function.
+            > Select book document's aggregation section and then add aggregation-pipeline using '</>TEXT' format.
+                [
+                    {
+                        $lookup: {
+                            from: "author",
+                            localField: "author_id",
+                            foreignField: "_id",
+                            as: "author_details",
+                        },
+                    },
+                ]
+            > The output of the aggregation pipelines comes in the form of arrays.
+
+            > Suppose we want to return 1st element of an array.
+                - We can add new fileds.
+                    $addFields: {
+                        author_details:{
+                            $first:"$author_details"
+                        }
+                    }
+
+                    OR
+
+                    $addFields: {
+                        author_details:{
+                            $arrayElementAt:["$author_details",0]
+                        }
+                    }
+
+
+    > Go to user.controller.js and see how to add aggregation pipelines for the user and subscriptions model..
+
+
+# How to write sub pipelines and routes :-
+    > We are creating a method to track the user's watch history.
+
+    > Here we perform nested joining.
+        - prefer E-R diagrame of all 'user' and 'video' models for better understanding. 
+        - 'user' has watch history and it is an array of objectIDs of 'video' model.
+        - In video model , every video is created by some user.
+        - In the watch history, we aim to showcase both videos and their creators.
+        - Agar hmm watch history main 'array of video-IDs' pane ke liye , 'user' model ko 'videos' model ke sath join karenge toh result document main videos ka owner[also an user] ka information hmme nahi milega.
+        - Kyunki abhi takk hmne owner ko user model ke sath lookup nahi kiya hai.
+        - means jisne ek perticular video ko create kiya hai uska information dooo.
+
+        - So we perform nested 'left join'.
+
+    > Go to user.controller.js and see watch_history method.
+
+    > Adding routers for 'changeCurrentPassword','getCurrentUser','updateAccountDetails','updateUserAvatar','updateUserCoverImage','getUserChannelProfile','getWatchHistory'.
