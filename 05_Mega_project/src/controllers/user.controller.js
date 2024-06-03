@@ -4,6 +4,7 @@ import { APIresponse } from "../utils/APIresponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { deleteOnCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 // Controller:-is a part of the software that handles user inputs and makes decisions about what data should be presented to the user and how it should be presented.
 // So we create a register method which gets data from user and sends required data to user.
@@ -469,7 +470,8 @@ const loginUser = asyncHandler( async(req,res) => {
                 throw new APIerror(400, "Invalid old password")
             }
 
-            console.log(oldPassword);
+            console.log("oldPassword = ",oldPassword);
+            console.log("new Password = ",newPassword);
 
         //changethe  password and save.
             user.password = newPassword;
@@ -547,6 +549,7 @@ const loginUser = asyncHandler( async(req,res) => {
             ).select("-password -refreshToken");
             
             const oldPath=help.avatar;
+            console.log("old path = ",oldPath);
 
             const check=await deleteOnCloudinary(oldPath);
 
@@ -596,6 +599,7 @@ const loginUser = asyncHandler( async(req,res) => {
             ).select("-password -refreshToken");
             
             const oldPath=help.coverImage;
+            console.log("old path = ",oldPath);
 
             const check=await deleteOnCloudinary(oldPath);
 
@@ -743,12 +747,40 @@ const loginUser = asyncHandler( async(req,res) => {
 
         console.log("channel = ",channel);
         //returns a document that contains an array of modified objects.
+        /*
+            channel =  [
+                            {
+                                _id: new ObjectId('6658cd7ba48e434ed28816d6'),
+                                userName: 'prabhat_29',
+                                email: 'prabhatmishra398@gmail.com',
+                                fullName: 'Prabhat Mishra',
+                                avatar: 'http://res.cloudinary.com/prabhat29/image/upload/v1717450654/mlrkxvzloj4vl1l1wpvh.jpg',
+                                coverImage: 'http://res.cloudinary.com/prabhat29/image/upload/v1717451068/kelay1zb0srng5b0zfb2.jpg',
+                                subscribersCount: 0,
+                                channelsSubscribedToCount: 0,
+                                isSubscribed: false
+                            }
+                        ]
+        */
 
         //Here we will return one object.
         return res
             .status(200)
             .json(
                 new APIresponse(200, channel[0], "User channel fetched successfully")
+                /*
+                    channel [0] = {
+                        _id: new ObjectId('6658cd7ba48e434ed28816d6'),
+                        userName: 'prabhat_29',
+                        email: 'prabhatmishra398@gmail.com',
+                        fullName: 'Prabhat Mishra',
+                        avatar: 'http://res.cloudinary.com/prabhat29/image/upload/v1717450654/mlrkxvzloj4vl1l1wpvh.jpg',
+                        coverImage: 'http://res.cloudinary.com/prabhat29/image/upload/v1717451068/kelay1zb0srng5b0zfb2.jpg',
+                        subscribersCount: 0,
+                        channelsSubscribedToCount: 0,
+                        isSubscribed: false
+                    }
+                */
             )
     })
 
@@ -831,6 +863,25 @@ const loginUser = asyncHandler( async(req,res) => {
         ])
     
         console.log("user = ",user);
+        // user returns an array.
+        /*
+            user = [
+                {
+                    _id: new ObjectId('6658cd7ba48e434ed28816d6'),
+                    userName: 'prabhat_29',
+                    email: 'prabhatmishra398@gmail.com',
+                    fullName: 'Prabhat Mishra',
+                    avatar: 'http://res.cloudinary.com/prabhat29/image/upload/v1717450654/mlrkxvzloj4vl1l1wpvh.jpg',
+                    coverImage: 'http://res.cloudinary.com/prabhat29/image/upload/v1717451068/kelay1zb0srng5b0zfb2.jpg',
+                    password: '$2b$10$KNhVMueYdHN8diAyk5bik.4aJuIUcoNjKl/DX.60FBBK4vD1N1J0i',
+                    watchHistory: [],
+                    createdAt: 2024-05-30T19:03:23.427Z,
+                    updatedAt: 2024-06-03T21:44:32.388Z,
+                    __v: 0,
+                    refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU4Y2Q3YmE0OGU0MzRlZDI4ODE2ZDYiLCJpYXQiOjE3MTc0NTAzNTYsImV4cCI6MTcxODMxNDM1Nn0.DnEnmZpG6n2ATwHGEFylpzcjfIdAoiXxIsPSwn9EVOY'    
+                }
+            ]
+        */
 
         return res
             .status(200)
@@ -838,6 +889,22 @@ const loginUser = asyncHandler( async(req,res) => {
                 new APIresponse(
                     200,
                     user[0].watchHistory, //1st value from aggregation pieline.
+                    /*
+                        user[0] = {
+                            _id: new ObjectId('6658cd7ba48e434ed28816d6'),
+                            userName: 'prabhat_29',
+                            email: 'prabhatmishra398@gmail.com',
+                            fullName: 'Prabhat Mishra',
+                            avatar: 'http://res.cloudinary.com/prabhat29/image/upload/v1717450654/mlrkxvzloj4vl1l1wpvh.jpg',
+                            coverImage: 'http://res.cloudinary.com/prabhat29/image/upload/v1717451068/kelay1zb0srng5b0zfb2.jpg',
+                            password: '$2b$10$KNhVMueYdHN8diAyk5bik.4aJuIUcoNjKl/DX.60FBBK4vD1N1J0i',
+                            watchHistory: [],
+                            createdAt: 2024-05-30T19:03:23.427Z,
+                            updatedAt: 2024-06-03T21:44:32.388Z,
+                            __v: 0,
+                            refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU4Y2Q3YmE0OGU0MzRlZDI4ODE2ZDYiLCJpYXQiOjE3MTc0NTAzNTYsImV4cCI6MTcxODMxNDM1Nn0.DnEnmZpG6n2ATwHGEFylpzcjfIdAoiXxIsPSwn9EVOY'    
+                        }
+                    */
                     "Watch history fetched successfully"
                 )
             )

@@ -556,3 +556,6 @@
     > Go to user.controller.js and see watch_history method.
 
     > Adding routers for 'changeCurrentPassword','getCurrentUser','updateAccountDetails','updateUserAvatar','updateUserCoverImage','getUserChannelProfile','getWatchHistory'.
+
+
+# MongoDB models for like , playlist and tweet :-

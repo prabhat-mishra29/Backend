@@ -84,10 +84,17 @@ const deleteOnCloudinary= async(localFilePath)=>{
                     //cloudinary.v2.uploader.destroy(public_id, options).then(callback);
 
                 // Extract the public_id from the file path (remove the file extension)
-                const public_id = localFilePath.rsplit('.', 1)[0];
+                const url_array = localFilePath.split('/');
+                console.log("url array = ",url_array);
+
+                const image=url_array[url_array.length-1];
+                console.log(image);
+
+                const public_id=image.split('.')[0]
+
+                console.log("Public id = ",public_id);
 
             const response=await cloudinary.uploader.destroy(public_id,
-                { resource_type:"auto" }
             );
 
             return response;
