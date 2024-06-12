@@ -94,8 +94,7 @@ const deleteOnCloudinary= async(localFilePath)=>{
 
                 console.log("Public id = ",public_id);
 
-            const response=await cloudinary.uploader.destroy(public_id,
-            );
+            const response=await cloudinary.uploader.destroy(public_id);
 
             return response;
         }

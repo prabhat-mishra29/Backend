@@ -350,7 +350,6 @@ const loginUser = asyncHandler( async(req,res) => {
         //Do we need email and password for finding the user in logout? -> No
         //We will crate a custom middleware to solve this problem.[Go to auth.middleware]
 
-
         // After creating the auth.middleware.js and adding it as a middleware in the routes, we were able to access the "req.user" object.
         await User.findByIdAndUpdate(
             //Parameter:- id , update , options .
@@ -633,7 +632,9 @@ const loginUser = asyncHandler( async(req,res) => {
     })
 
 
+// Learn the "monogoDB aggregation pipeline" before going further.
 // MongoDB aggregation pipelines for connecting subscription and user models.
+
     const getUserChannelProfile = asyncHandler(async(req, res) => {
         // When you need a channel's profile, you go to its URL.
         //  example:- /chai-aur-code or /take-you-forward
@@ -786,7 +787,7 @@ const loginUser = asyncHandler( async(req,res) => {
 
 
 // Nested lookup for "watch_history":- 
-    //Why do we use ObjectId[] for storing ids of 'videos model?
+    //Why do we use ObjectId[] for storing ids of 'videos model'?
     //  less in number , we can use array here.
 
     /*
@@ -817,13 +818,17 @@ const loginUser = asyncHandler( async(req,res) => {
                     localField: "watchHistory",
                     foreignField: "_id", //video-id
                     as: "watchHistory",
+
+                    //After performing above 'lookup' opeartion we get an array[watchHistory] of containing "video_id"s only.Without having information about the user.
+
                     //To get the owner's information, we create a sub-pipeline.
+
                     pipeline: [
                         {
                             // Get owner information from user model.
                             $lookup: {
                                 from: "users",
-                                localField: "owner",
+                                localField: "owner", //video-model
                                 foreignField: "_id",
                                 as: "owner",
 

@@ -423,7 +423,7 @@
 
 # Understand the subscription Schema :-
     > Why do we create a separate subscription schema?
-        - In YouTube, we notice that each user has a subscriber count and a count of channels to which they are subscribed..
+        - In YouTube, we notice that each user has a subscriber count and a count of channels to which they are subscribed.
         - Channel is nothing but a "user" and subscribers are also "users".
         - We want to maintain these two functionality.
         - If we create an array to store the 'user_ids' of subscribers, we may encounter a problem when handling a very large number of subscribers, such as 1 million.
