@@ -559,3 +559,10 @@
 
 
 # MongoDB models for like , playlist and tweet :-
+    > Create playlist,comment,like, and tweet models.
+    
+    > We use 'mongoose-aggregate-paginate-v2' in 'video and 'comment' models.
+        - Yee hmme ability deta hai ki kahan see kahan takk videos dena hai.. ya phir next call pai kahan se start karke kahan takk video dena hai.
+
+
+# Complete all bakend part.
