@@ -29,9 +29,12 @@ app.use(cors(
         app.use(express.urlencoded( {extended:true , limit:"16kb"} ))
         //extended :- We have the ability to create objects that are nested within other objects.
 
-//sometimes we need to store some pdf,images in our server ,for that we build a public folder,so that every one can access.
-    //For configuration:-
+//sometimes we need to store some pdf,images in our server ,for that we build a public folder.
+    //For accessing those pdfs,files in api format we use this syntax.
         app.use(express.static("public"))
+        //example:- suppose an image is present in public and we want to get that image in API format for the usage on the front end.
+        // image file name:hello.png
+        // http://api/v1/hello.png will show that image. 
 
 
 //Why we need cookie-parser?
